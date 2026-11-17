@@ -220,7 +220,7 @@ const SB_URL='https://rrfhgplvqhoebphhhxfr.supabase.co';
 const SB_KEY='sb_publishable_bRuTblF2YH6VzoyVMRZy8Q_yKCISgFT';
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
 
-const LANG=/^(ru|uk|be)/i.test(navigator.language||'')?'ru':'en';
+const LANG='en';
 const TX={
 en:{tab:'Table',title:'Online table',intro:'The GM creates a table and sends players an invite link. Sheets sync in real time and every roll is visible to the table.',
  your_name:'Your name at the table',create_title:'Create a table',create_ph:'Table name',create_btn:'Create',join_title:'Join a table',join_ph:'Invite link or code',join_btn:'Join',
@@ -232,18 +232,7 @@ en:{tab:'Table',title:'Online table',intro:'The GM creates a table and sends pla
  back_to_table:'Back to table',sync_ok:'Synced',sync_busy:'Syncing…',sync_err:'Offline, retrying…',reset_confirm:'Reset this character at the table?',
  seed_confirm:'Upload your local sheet to this table?',err_anon:'Anonymous sign-in is disabled in Supabase (Authentication → Sign In / Providers).',
  err_full:'This table is full.',err_invite:'Invalid or outdated invite.',err_limit:'Limit reached: up to 3 tables per GM.',err_generic:'Error: ',
- invited:'You have been invited to a table. Enter your name and press Join.',seats:'seats'},
-ru:{tab:'Стол',title:'Онлайн-стол',intro:'Мастер создает стол и присылает игрокам ссылку-приглашение. Листы синхронизируются в реальном времени, все броски видны за столом.',
- your_name:'Ваше имя за столом',create_title:'Создать стол',create_ph:'Название стола',create_btn:'Создать',join_title:'Присоединиться к столу',join_ph:'Ссылка-приглашение или код',join_btn:'Войти',
- my_tables:'Мои столы',none:'Пока нет столов.',open:'Открыть',gm:'Мастер',player:'Игрок',members:'Участники',chars:'Персонажи',invite:'Ссылка-приглашение',copy:'Копировать',copied:'Скопировано',
- newlink:'Новая ссылка',newlink_confirm:'Старая ссылка перестанет работать. Продолжить?',kick:'Исключить',kick_confirm:'Исключить игрока из стола?',leave:'Покинуть стол',
- leave_confirm:'Покинуть стол? Ваш лист останется у мастера.',delroom:'Удалить стол',delroom_confirm:'Удалить стол вместе со всеми листами и бросками? Это нельзя отменить.',
- close:'Закрыть стол',open_sheet:'Открыть лист',you:'вы',npc_add:'+ NPC',npc_name:'Имя NPC',delchar:'Удалить',delchar_confirm:'Удалить этот лист?',
- rolls:'Журнал бросков (последний час)',no_rolls:'Бросков пока нет.',editing:'Редактирование',viewing:'Просмотр',readonly:'только чтение',pick_sheet:'Выберите персонажа на вкладке «Стол»',
- back_to_table:'К столу',sync_ok:'Синхронизировано',sync_busy:'Синхронизация…',sync_err:'Нет связи, повторяю…',reset_confirm:'Сбросить этого персонажа на столе?',
- seed_confirm:'Загрузить ваш локальный лист в этот стол?',err_anon:'Анонимный вход отключен в настройках Supabase (Authentication → Sign In / Providers).',
- err_full:'Стол заполнен.',err_invite:'Неверная или устаревшая ссылка-приглашение.',err_limit:'Достигнут лимит: не больше 3 столов на мастера.',err_generic:'Ошибка: ',
- invited:'Вас пригласили за стол. Введите имя и нажмите «Войти».',seats:'мест'}
+ invited:'You have been invited to a table. Enter your name and press Join.',seats:'seats'}
 };
 const t=k=>(TX[LANG][k]??TX.en[k]??k);
 
