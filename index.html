@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NOVA — Spark Sheet</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in</title>
 <style>
 :root{color-scheme:dark;--ink:#f2f0ed;--paper:#202126;--ground:#111216;--muted:#a5a6ad;--line:#41434a;--accent:#d94b35;--accent-pale:#3a211e;--purple:#e2a34a;--purple-pale:#3b3020;--red:#e45b45}body.light{color-scheme:light;--ink:#171717;--paper:#fff;--ground:#e9e7e3;--muted:#686868;--line:#d2cec8;--accent:#bd352b;--accent-pale:#f8e9e5;--purple:#bd7a27;--purple-pale:#f6eddf;--red:#b42318}
 *{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
@@ -89,8 +89,16 @@ body.spark-pyre{--spark-color:#f28c28} body.spark-scorch{--spark-color:#9b59d0} 
 #catalogList .catalog-entry>.count{grid-column:2;grid-row:3;align-self:center;justify-self:end;display:flex;flex-direction:row;align-items:center;gap:5px}
 @media(max-width:760px){#catalogList .catalog-entry{grid-template-columns:minmax(0,1fr) 96px}#catalogList .catalog-entry>.count{grid-column:2;grid-row:3;justify-self:end}}
 /* ===== Online table ===== */
+[hidden]{display:none!important}
+#gate{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:var(--ground);z-index:100}
+body.locked.gate-on #gate{display:flex}
+body.locked>*:not(#gate){display:none!important}
+#gateForm{display:grid;gap:10px;width:min(320px,86vw)}
+#gateForm input{width:100%;padding:12px;background:var(--paper);color:var(--ink);border:1px solid var(--line);font:inherit;border-radius:0}
+#gateForm button{padding:12px}
+#gMsg{min-height:18px;font-size:12px;color:var(--accent)}
 #viewBanner{background:var(--accent-pale);border-bottom:1px solid var(--line);padding:9px max(22px,calc((100vw - 1180px)/2));display:flex;gap:12px;align-items:center;justify-content:space-between;font-size:13px;font-weight:700}
-#viewBanner[hidden]{display:none}
+#viewBanner .tb-row{margin-left:auto}
 .tb-msg{border:1px solid var(--accent);background:var(--accent-pale);padding:9px 12px;margin:10px 0;font-size:13px}
 .tb-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .tb-row.between{justify-content:space-between}
@@ -107,11 +115,25 @@ body.spark-pyre{--spark-color:#f28c28} body.spark-scorch{--spark-color:#9b59d0} 
 .tb-invite{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .tb-invite input{flex:1;min-width:220px;padding:9px;background:var(--ground);color:var(--ink);border:1px solid var(--line)}
 .tb-members{display:grid;gap:6px;margin-top:10px}
-#toasts{position:fixed;right:14px;bottom:14px;display:grid;gap:8px;z-index:50;max-width:320px}
+#toasts{position:fixed;right:14px;bottom:62px;display:grid;gap:8px;z-index:50;max-width:320px}
 .toast{background:var(--paper);border:1px solid var(--accent);padding:10px 12px;font-size:12px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+/* party side panel */
+#party{position:fixed;top:0;right:0;bottom:0;width:300px;background:var(--paper);border-left:1px solid var(--line);overflow:auto;z-index:40;padding:14px;transform:translateX(105%);transition:transform .18s ease}
+body.party-open #party{transform:none}
+@media (min-width:1100px){body.party-open{padding-right:300px}}
+@media (prefers-reduced-motion:reduce){#party{transition:none}}
+#partyToggle{position:fixed;right:14px;bottom:14px;z-index:41}
+body.party-open #partyToggle{display:none}
+.party-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pt-list{display:grid;gap:6px}
+.pt-row{display:grid;gap:3px;text-align:left;text-transform:none;letter-spacing:0;padding:9px 10px;font-weight:700;background:var(--ground)}
+.pt-row.on{border-color:var(--accent);background:var(--accent-pale)}
+.pt-name{font-size:13px;overflow-wrap:anywhere}
+.pt-sub{font-size:11px;color:var(--muted);font-weight:400}
 
-</style></head><body>
-<header class="top"><div class="brand"><div class="brand-title"><h1>NOVA</h1><span class="brand-divider">.</span><div class="subtitle">Spark Sheet</div></div></div><div class="actions"><span id="saveState" class="save-state">Saved</span><button id="exportBtn">Export</button><button id="importBtn">Import</button><button id="resetBtn">Reset</button><button id="themeBtn">Light Mode</button><input id="importFile" type="file" accept="application/json" hidden></div></header>
+</style></head><body class="locked">
+<div id="gate"><form id="gateForm" autocomplete="on"><input id="gUser" name="username" type="text" placeholder="Username" maxlength="24" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"><input id="gCode" name="password" type="password" placeholder="Access code" autocomplete="current-password"><button id="gBtn" class="primary" type="submit">Enter</button><div id="gMsg" role="alert"></div></form></div>
+<header class="top"><div class="brand"><div class="brand-title"><div class="subtitle">Spark Sheet</div></div></div><div class="actions"><span id="userTag" class="save-state"></span><span id="saveState" class="save-state">Saved</span><button id="exportBtn">Export</button><button id="importBtn">Import</button><button id="resetBtn">Reset</button><button id="themeBtn">Light Mode</button><button id="signOutBtn">Sign out</button><input id="importFile" type="file" accept="application/json" hidden></div></header>
 <nav><button class="active" data-tab="character">Character</button><button data-tab="spark">Spark</button><button data-tab="armory">Armory</button><button data-tab="table" id="tableTabBtn">Table</button></nav>
 <div id="viewBanner" hidden></div>
 <main>
@@ -133,6 +155,8 @@ body.spark-pyre{--spark-color:#f28c28} body.spark-scorch{--spark-color:#9b59d0} 
 <section id="table" class="tab"><div id="tableRoot"></div></section>
 </main>
 <div id="toasts"></div>
+<aside id="party" hidden><div class="party-head"><b>Party</b><button data-act="partyclose" aria-label="Hide">&#10005;</button></div><div id="partyBody"></div></aside>
+<button id="partyToggle" hidden>Party</button>
 <script>
 const DATA={"classes":{"Pyre":{"desc":"Strong single-target damage, complemented by high mobility.","passive":"Slash","passiveText":"Lash out with your solar blade. Deal 1 Harm to a Close enemy at the start of your turn.","powers":[{"name":"Dash","text":"Single out your target and charge them down. Deal 2 Harm to an enemy at Close range, or 3 Harm if you moved before activating Dash."},{"name":"Singe","text":"Cast a fiery arc with your solar blade. Deal 1 Harm to all enemies within Close range."},{"name":"Finisher","text":"Streak across the ground like wildfire, dealing 1 Harm to every injured enemy within Near range of you."},{"name":"Tracer Round","text":"Hurl a flaming spear at a Far enemy, dealing 1 Harm. At the start of the next round, you can instantly teleport next to that enemy."}],"super":{"name":"Firestorm","text":"Choose a single enemy at any range. Move to Close range and deal Harm equal to your Sun + Moon."},"mods":["Fury","Cool","Wellspring","Hardy","Mercury","Honed","Quick-Strike","Retaliate","Finder","Lethal","Efficient","Prepped","Overclock","Sweep","Lit","Phase-Shift","Pinned"]},"Scorch":{"desc":"Set the battlefield on fire while helping the team stay fueled up and ready to fight.","passive":"Controlled Burn","passiveText":"Warp the resources of your enemies. Once per GM turn, you can change a Drop from one type to the other (e.g. Health to Fuel).","powers":[{"name":"Engulf","text":"Your Spark is wreathed in flame. Until the end of your next turn, any Close enemies take 2 Harm."},{"name":"Erupt","text":"Columns of flame burst from the ground. Deal 2 Harm to a target within Near range, and 1 Harm to anyone Close to them."},{"name":"Snuff Out","text":"Focus the sun’s fury on a wounded foe. An injured enemy at any range takes Harm equal to your Shade."},{"name":"Kindling","text":"Fire shards of sun in all directions. Choose a number of targets equal to or less than your Sun, at any range. Enemies take 1 Harm; allies recover 1 Health or Fuel."}],"super":{"name":"Glory & Flame","text":"Two waves blast off of you, one wrathful, one radiant. All damaged enemies immediately take Harm equal to your Sun. Allies recover Health equal to your Shade."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Sun Burst","Light Up","Adaptive","Bountiful","Finder","Lethal","Efficient","Colder","Expel","Wall of Fire","Siphon","Stockpile"]},"Voyager":{"desc":"Seek out and destroy the enemies of the Dusk.","passive":"Marked","passiveText":"At the start of your turn, mark any two enemies. Marks remain until used, but do not stack.","powers":[{"name":"Seek","text":"Choose 1 marked enemy: it takes +1 Harm from all sources until the start of the next round. Remove its mark."},{"name":"Destroy","text":"Each marked enemy takes 2 Harm. Remove marks from targets."},{"name":"HoloSpark","text":"Deploy a Spark decoy at Near range or closer. Marked enemies attack it. The effect ends at the end of the round; affected enemies lose their mark."},{"name":"Swap","text":"Swap places with a marked enemy at Near or Far range. The target loses its mark."}],"super":{"name":"SOS Salvo","text":"Fire a solar shard for each point of Moon. The shards hit at any range and deal 2 Harm each."},"mods":["Cyclical","Cool","Wellspring","Hardy","Sonar","Studied","Stun","Nitro","Finder","Lethal","Efficient","Prepped","Tagged","Lockdown","Splash","Hardlight Holo","Matchmaker"]},"Warden":{"desc":"Protect allies, control enemies, and charge into the fray.","passive":"Unstoppable","passiveText":"While moving, stun 1 enemy at Close range: it cannot act until the end of the round.","powers":[{"name":"Bulwark","text":"You and all allies at Close reduce Harm from enemies by 1 until the end of the round."},{"name":"Rush","text":"Choose a location at Near and rush there. Deal 1 Harm to each enemy in your path. This does not replace your normal movement."},{"name":"Crush & Throw","text":"Crush an enemy at Close, dealing 2 Harm, then throw it to a point at Near. All enemies there take 1 Harm."},{"name":"Over Here","text":"Recover Health equal to your Sun. All enemies at Near must attack you until the start of your next turn."}],"super":{"name":"Earthquake","text":"Choose a number of enemies equal to your Sun: deal 2 Harm to each and stun them until the end of the round."},"mods":["Fury","Cool","Wellspring","Hardy","Defiant","Shockwave","Sweep","Ramming","Finder","Lethal","Efficient","Prepped","Reflective","Courier","Pull Pin","Intimidation"]},"Pox":{"desc":"Spread infection, gradually wearing down your enemies.","passive":"Virulent","passiveText":"At the start of combat, infect 1 enemy. Infected enemies take 1 Harm at the start of your turn.","powers":[{"name":"Infect","text":"Infect 1 enemy at Near range."},{"name":"Spread","text":"Choose an infected enemy at Near: infect all enemies within Close range of it."},{"name":"Symptomatic","text":"Choose one effect for all infected enemies this round: -1 Harm dealt; +1 Harm taken; or unable to move."},{"name":"Fight or Flight","text":"Each infected enemy either immediately deals its Harm to the nearest enemy or flees from you for one round (GM’s choice)."}],"super":{"name":"Patient Zero","text":"All infected enemies take Harm equal to the number of infected enemies. Then remove all infections."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Deadly","Plague Bringer","Vector","Evolved","Finder","Efficient","Prepped","Split Mind","Adrenal","Viral Link","Clouded","Dual Strand"]},"Grim":{"desc":"Raise fallen enemies as Thralls and command them.","passive":"Raise Dead","passiveText":"Once per round, when an enemy dies, you may make it a Thrall. Thralls return with 1 Health and use your Powers. They cannot move without a specific mod. Maximum Thralls equals Shade.","powers":[{"name":"Pull Strings","text":"Command a Thrall to attack an enemy at Close: it deals its Harm."},{"name":"Siphon","text":"Sacrifice a Thrall at Close. It creates Health or Fuel Drops equal to its maximum Health. Any ally may collect them."},{"name":"Possess","text":"Deal 2 Harm to an enemy at Near and give it one command it must obey."},{"name":"Haunt","text":"All Thralls scream piercingly. Enemies at Close to them retreat in fear and cannot act during the GM turn."}],"super":{"name":"Death Curse","text":"Your Thralls explode with a death curse. Each deals 2 Harm to all enemies at Close to it."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Builder","Sewn Sinew","Enthralling","Danse Macabre","Howlers","Finder","Efficient","Prepped","Split Mind","Weaver","Ritualistic","Horrified","Rallying Cry"]},"Drifter":{"desc":"A versatile shooter with an arsenal for every combat scenario.","passive":"Empty Clip","passiveText":"If you have 0 Fuel at the end of your turn, you may activate Supernova. Then gain 3 Fuel.","powers":[{"name":"Fan the Hammer","text":"Choose a number of targets at Close equal to your current Fuel. Each takes 1 Harm."},{"name":"Hip-Fire","text":"Deal Harm equal to your Sun to a target at Near."},{"name":"Duel","text":"Choose an enemy at Near or closer. Deal Harm equal to your Moon. If the enemy survives, you take its Harm."},{"name":"Take Aim","text":"Deal Harm equal to your Shade to one target at Far; or deal 1 Harm to a number of enemies at Far equal to your Shade."}],"super":{"name":"Bullet Hell","text":"Choose a range. Every enemy at that range takes 2 Harm."},"mods":["Fury","Cyclical","Cool","Leak","Hardy","Smaller Tank","Blood Bullets","Mercury","Bullet Storm","Overclock","Solar","Lunar","Twilight","Prepped","Hammer Forged","Explosive","Deadeye","Ricochet"]},"Sanguine":{"desc":"Support your squad and deal devastating damage with your blood blade.","passive":"Blood Born","passiveText":"You may spend 1 Health when using a Power to activate its Blood effect.","powers":[{"name":"Transfusion","text":"Choose two targets Close to each other. Transfer 1 Health from one to the other. Blood effect: Transfer Health equal to your Sun."},{"name":"Siphon","text":"Deal 1 Harm to one enemy at Close and gain 1 Health. Blood effect: Affects all Close enemies."},{"name":"Blood Blade","text":"Lose 1 Health and deal 1 Harm to every enemy at Close. Blood effect: Deal Harm equal to your Shade."},{"name":"Cauldron","text":"Become a swarm of bats and move to any location within Far range. Deal 1 Harm to all Close enemies at that location. Blood effect: Deal Harm equal to your Moon."}],"super":{"name":"Undead","text":"You lock down, surrounding yourself with a steel coffin. No effect on death. You resurrect at the start of the next round without requiring aid from an ally. Activate Siphon when you do. Doing this uses your action, and you may only Move on your turn."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Hearty","Leech","Reborn","Mobile Grave","Finder","Lethal","Efficient","Prepped","Blood Soaked","Donor","Refreshing","Honed Blood","War Path"]},"Infernal":{"desc":"Lock down the battlefield, condemning the denizens of the Dusk.","passive":"Damnation","passiveText":"Enemies affected by your Powers are Damned. Damned enemies deal +1 Harm the next time they attack a Spark, and then inflict double that Harm on themselves. Damned is removed after.","powers":[{"name":"Hellfire","text":"Ignite an enemy’s soul with a touch. Deal 3 Harm to an enemy within Close range. If they die from Hellfire, they explode and deal 1 Harm to all enemies within Close range to them."},{"name":"Brimstone","text":"Rock and ash burst from a tear in the ground. Deal 1 Harm to an enemy within Near range, and all enemies within Close range to your target. All damaged enemies can only attack at Close range until the end of the round."},{"name":"Banish","text":"Cast your enemy to a realm of fire and pain, momentarily. One enemy within Close range disappears from the battle. They return at the end of your next turn."},{"name":"Sinner's Snare","text":"Bind the bodies of your closest foes, and damn their souls. Target a number of enemies equal to Moon; they cannot act this round."}],"super":{"name":"Final Judgement","text":"All enemies within Close range are dragged down to Hell and killed."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Eternal","Dance with the Devil","Fine Print","Toll","Finder","Lethal","Efficient","Split Mind","White Hot","Fissure","Rift Tear","Bind Them"]}},"mods":[{"id":"Fury","name":"Fury","availability":{"Pyre":{"max":2,"target":null,"type":"Persistent","effect":"+1 Sun"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Warden":{"max":2,"target":null,"type":"Persistent","effect":"+1 Sun"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"}}},{"id":"Cool","name":"Cool","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Voyager":{"max":2,"target":null,"type":"Persistent","effect":"+1 Shade"},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"}}},{"id":"Wellspring","name":"Wellspring","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Scorch":{"max":2,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Pox":{"max":2,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"}}},{"id":"Hardy","name":"Hardy","availability":{"Pyre":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Warden":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Sanguine":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Infernal":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"}}},{"id":"Mercury","name":"Mercury","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Move twice per turn."},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Move twice per turn."}}},{"id":"Honed","name":"Honed","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Harm to Slash."}}},{"id":"Quick-Strike","name":"Quick-Strike","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Slash can target two enemies."}}},{"id":"Retaliate","name":"Retaliate","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Slash activates every time you take Harm, as well as at the start of your turn."}}},{"id":"Finder","name":"Finder","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Scorch":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Voyager":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Warden":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Pox":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Grim":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Infernal":{"max":1,"target":null,"type":"Power","effect":"+1 Range"}}},{"id":"Lethal","name":"Lethal","availability":{"Pyre":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Scorch":{"max":3,"target":null,"type":"Power","effect":"+1 Harm"},"Voyager":{"max":1,"target":null,"type":"Power","effect":"+1 Harm"},"Warden":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Sanguine":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Infernal":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"}}},{"id":"Efficient","name":"Efficient","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Scorch":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Voyager":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Warden":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Pox":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Grim":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Infernal":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."}}},{"id":"Prepped","name":"Prepped","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Voyager":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Warden":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Pox":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Grim":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Drifter":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."}}},{"id":"Overclock","name":"Overclock","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"Spend 1 extra Fuel to double the Harm."},"Drifter":{"max":2,"target":null,"type":"Power","effect":"Spend 1 extra Fuel to double the Harm."}}},{"id":"Sweep","name":"Sweep","availability":{"Pyre":{"max":1,"target":"Dash","type":"Power","effect":"Dash affects all enemies Close to the target as well."},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"If you have not moved, all Close enemies cannot act this round."}}},{"id":"Lit","name":"Lit","availability":{"Pyre":{"max":1,"target":"Singe","type":"Power","effect":"Enemies hit by Singe take 1 Harm if they act that round."}}},{"id":"Phase-Shift","name":"Phase-Shift","availability":{"Pyre":{"max":1,"target":"Finisher","type":"Power","effect":"Harm for Finisher equals Moon instead of 1."}}},{"id":"Pinned","name":"Pinned","availability":{"Pyre":{"max":1,"target":"Tracer Round","type":"Power","effect":"Target of Tracer Round cannot act this round."}}},{"id":"Cyclical","name":"Cyclical","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Voyager":{"max":2,"target":null,"type":"Persistent","effect":"+1 Moon"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"}}},{"id":"Sun Burst","name":"Sun Burst","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"You may have 1 Drop each round explode, dealing 2 Harm to all Close enemies."}}},{"id":"Light Up","name":"Light Up","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"You can change 2 Drops per GM turn instead of 1."}}},{"id":"Adaptive","name":"Adaptive","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"Any Drop you pick up can be treated as Health or Fuel."}}},{"id":"Bountiful","name":"Bountiful","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"Enemies you kill create 2 Drops during the GM turn."}}},{"id":"Colder","name":"Colder","availability":{"Scorch":{"max":1,"target":null,"type":"Power","effect":"You may use any Attribute in place of another."}}},{"id":"Expel","name":"Expel","availability":{"Scorch":{"max":1,"target":"Engulf","type":"Power","effect":"When Engulf ends, it explodes outward, dealing 1 Harm to every enemy up to Near."}}},{"id":"Wall of Fire","name":"Wall of Fire","availability":{"Scorch":{"max":1,"target":"Erupt","type":"Power","effect":"Erupt’s column remains in place for a number of rounds equal to Moon. Deals 1 Harm to anyone that gets Close to it."}}},{"id":"Siphon","name":"Siphon","availability":{"Scorch":{"max":1,"target":"Snuff Out","type":"Power","effect":"If Snuff Out’s target dies, you regain 1 Fuel."}}},{"id":"Stockpile","name":"Stockpile","availability":{"Scorch":{"max":1,"target":"Kindling","type":"Power","effect":"The number of Kindling targets equals your current Fuel."}}},{"id":"Sonar","name":"Sonar","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"You may mark three enemies instead of two."}}},{"id":"Studied","name":"Studied","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"Marked enemies deal 1 less Harm to you."}}},{"id":"Stun","name":"Stun","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"At the start of your turn, choose 1 marked enemy: it cannot act this round."}}},{"id":"Nitro","name":"Nitro","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"You may take one additional non-Power action per turn."}}},{"id":"Tagged","name":"Tagged","availability":{"Voyager":{"max":2,"target":null,"type":"Power","effect":"This Power does not use a target mark."}}},{"id":"Lockdown","name":"Lockdown","availability":{"Voyager":{"max":1,"target":"Seek","type":"Power","effect":"Target of Seek cannot act this round."}}},{"id":"Splash","name":"Splash","availability":{"Voyager":{"max":1,"target":"Destroy","type":"Power","effect":"Enemies within Close of Destroy targets take 1 Harm."}}},{"id":"Hardlight Holo","name":"Hardlight Holo","availability":{"Voyager":{"max":1,"target":"HoloSpark","type":"Power","effect":"HoloSpark explodes at the end of the round, dealing 1 Harm to all Close enemies and marking them."}}},{"id":"Matchmaker","name":"Matchmaker","availability":{"Voyager":{"max":1,"target":"Swap","type":"Power","effect":"You may swap the target with an ally instead of yourself."}}},{"id":"Defiant","name":"Defiant","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Recover 1 Health at the start of your turn."}}},{"id":"Shockwave","name":"Shockwave","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Unstoppable stuns 2 enemies total."}}},{"id":"Ramming","name":"Ramming","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Enemies affected by Unstoppable take 2 Harm total."}}},{"id":"Reflective","name":"Reflective","availability":{"Warden":{"max":1,"target":"Bulwark","type":"Power","effect":"Deal 1 Harm to enemies that attack allies protected by Bulwark."}}},{"id":"Courier","name":"Courier","availability":{"Warden":{"max":1,"target":"Bulwark","type":"Power","effect":"You may bring an ally at Close with you when using Bulwark."}}},{"id":"Pull Pin","name":"Pull Pin","availability":{"Warden":{"max":1,"target":"Crush & Throw","type":"Power","effect":"Enemies killed by Crush & Throw explode on impact, dealing 3 Harm total to enemies at the landing point."}}},{"id":"Intimidation","name":"Intimidation","availability":{"Warden":{"max":1,"target":"Over Here","type":"Power","effect":"When using Over Here, normal enemies may flee instead of attacking. Does not affect Elite enemies."}}},{"id":"Deadly","name":"Deadly","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Virulent deals 2 Harm total to infected enemies."}}},{"id":"Plague Bringer","name":"Plague Bringer","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Virulent infects 3 enemies instead of one."}}},{"id":"Vector","name":"Vector","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Once per round, infect an enemy at Close range."}}},{"id":"Evolved","name":"Evolved","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Choose one Symptomatic effect: it is permanently active on all infected enemies. It cannot be chosen when using Symptomatic."}}},{"id":"Split Mind","name":"Split Mind","availability":{"Pox":{"max":2,"target":null,"type":"Power","effect":"+1 target"},"Grim":{"max":2,"target":null,"type":"Power","effect":"+1 target"},"Infernal":{"max":2,"target":null,"type":"Power","effect":"+1 target"}}},{"id":"Adrenal","name":"Adrenal","availability":{"Pox":{"max":1,"target":"Infect","type":"Power","effect":"The infected target immediately suffers the effect of Fight or Flight."}}},{"id":"Viral Link","name":"Viral Link","availability":{"Pox":{"max":1,"target":"Spread","type":"Power","effect":"Spread’s target takes Harm equal to the number of newly infected enemies."}}},{"id":"Clouded","name":"Clouded","availability":{"Pox":{"max":1,"target":"Symptomatic","type":"Power","effect":"New Symptomatic effect: enemies can only deal Harm at Close range."}}},{"id":"Dual Strand","name":"Dual Strand","availability":{"Pox":{"max":1,"target":"Fight or Flight","type":"Power","effect":"Enemies suffer both effects of Fight or Flight."}}},{"id":"Builder","name":"Builder","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health to Thralls."}}},{"id":"Sewn Sinew","name":"Sewn Sinew","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"Thralls return with Health equal to Sun, up to their maximum."}}},{"id":"Enthralling","name":"Enthralling","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"You may create a Thrall every time an enemy dies, not just once per round."}}},{"id":"Danse Macabre","name":"Danse Macabre","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"One Thrall may move during your turn."}}},{"id":"Howlers","name":"Howlers","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"When a Thrall dies for any reason, it activates Haunt at its location."}}},{"id":"Weaver","name":"Weaver","availability":{"Grim":{"max":1,"target":"Pull Strings","type":"Power","effect":"A number of Thralls equal to or less than Shade may act using Pull Strings."}}},{"id":"Ritualistic","name":"Ritualistic","availability":{"Grim":{"max":1,"target":"Siphon","type":"Power","effect":"Thralls sacrificed with Siphon curse enemies at Close: +1 Harm taken or -1 Harm dealt until your next turn (your choice)."}}},{"id":"Horrified","name":"Horrified","availability":{"Grim":{"max":1,"target":"Possess","type":"Power","effect":"All enemies Close to the target of Possess take 1 Harm and cannot move this round."}}},{"id":"Rallying Cry","name":"Rallying Cry","availability":{"Grim":{"max":1,"target":"Haunt","type":"Power","effect":"One ally Close to Haunted Thralls may take another turn this round."}}},{"id":"Leak","name":"Leak","availability":{"Drifter":{"max":2,"target":null,"type":"Persistent","effect":"-1 Fuel"}}},{"id":"Smaller Tank","name":"Smaller Tank","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Gain 2 Fuel from Empty Clip."}}},{"id":"Blood Bullets","name":"Blood Bullets","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"You may treat Fuel Drops as Health Drops."}}},{"id":"Bullet Storm","name":"Bullet Storm","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Supernova deals 4 Harm instead of 2."}}},{"id":"Solar","name":"Solar","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Sun instead."}}},{"id":"Lunar","name":"Lunar","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Moon instead."}}},{"id":"Twilight","name":"Twilight","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Shade instead."}}},{"id":"Hammer Forged","name":"Hammer Forged","availability":{"Drifter":{"max":1,"target":"Fan the Hammer","type":"Power","effect":"Fan the Hammer Harm equals your current Fuel count."}}},{"id":"Explosive","name":"Explosive","availability":{"Drifter":{"max":1,"target":"Hip-Fire","type":"Power","effect":"Hip-Fire deals Harm to all enemies Close to the target as well."}}},{"id":"Deadeye","name":"Deadeye","availability":{"Drifter":{"max":1,"target":"Duel","type":"Power","effect":"Once per round, if you kill the target with Duel, you may immediately Duel again at no cost."}}},{"id":"Ricochet","name":"Ricochet","availability":{"Drifter":{"max":1,"target":"Take Aim","type":"Power","effect":"If the single target of Take Aim dies, deal Harm equal to your Shade to an enemy within Close range of the target."}}},{"id":"Hearty","name":"Hearty","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Recover 2 Health from Drops."}}},{"id":"Leech","name":"Leech","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Fuel Drops also provide 1 Health."}}},{"id":"Reborn","name":"Reborn","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Gain the Blood effect from Siphon with your Supernova."}}},{"id":"Mobile Grave","name":"Mobile Grave","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"You may resurrect anywhere within Near of where you died."}}},{"id":"Blood Soaked","name":"Blood Soaked","availability":{"Sanguine":{"max":1,"target":null,"type":"Power","effect":"Gain Blood effect at no Health cost."}}},{"id":"Donor","name":"Donor","availability":{"Sanguine":{"max":1,"target":"Transfusion","type":"Power","effect":"You and allies gain double Health from Transfusion."}}},{"id":"Refreshing","name":"Refreshing","availability":{"Sanguine":{"max":1,"target":"Siphon","type":"Power","effect":"If you kill with Siphon, you may immediately activate another Power. You must still pay the Fuel to do so."}}},{"id":"Honed Blood","name":"Honed Blood","availability":{"Sanguine":{"max":1,"target":"Blood Blade","type":"Power","effect":"Lose any number of Health to deal that number of Harm with Blood Blade."}}},{"id":"War Path","name":"War Path","availability":{"Sanguine":{"max":1,"target":"Cauldron","type":"Power","effect":"Cauldron deals 1 Harm to all enemies in the movement path."}}},{"id":"Eternal","name":"Eternal","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damnation is not removed after enemies deal Harm. The Damnation effect does not stack if they are affected by another Power."}}},{"id":"Dance with the Devil","name":"Dance with the Devil","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies take 1 Harm whenever they are Close to you."}}},{"id":"Fine Print","name":"Fine Print","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies cannot deal Harm to you."}}},{"id":"Toll","name":"Toll","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies are affected by Final Judgement at any range."}}},{"id":"White Hot","name":"White Hot","availability":{"Infernal":{"max":1,"target":"Hellfire","type":"Power","effect":"Explosion Harm for Hellfire equals your Sun."}}},{"id":"Fissure","name":"Fissure","availability":{"Infernal":{"max":1,"target":"Brimstone","type":"Power","effect":"Brimstone now affects a line between you and a Far location."}}},{"id":"Rift Tear","name":"Rift Tear","availability":{"Infernal":{"max":1,"target":"Banish","type":"Power","effect":"When Banish’s target returns, they deal Harm equal to your Shade to all enemies Close to their location."}}},{"id":"Bind Them","name":"Bind Them","availability":{"Infernal":{"max":1,"target":"Sinner's Snare","type":"Power","effect":"Damned enemies affected by Sinner’s Snare take 1 additional Harm."}}}]};
 const CLASSES=DATA.classes, MODS=Object.fromEntries(DATA.mods.map(m=>[m.id,m]));
@@ -218,59 +242,117 @@ ${_}`}var A=class extends Error{constructor({message:e,code:t,cause:s,name:n}){v
 (()=>{
 const SB_URL='https://rrfhgplvqhoebphhhxfr.supabase.co';
 const SB_KEY='sb_publishable_bRuTblF2YH6VzoyVMRZy8Q_yKCISgFT';
+const ORIG_TITLE='NOVA — Spark Sheet';
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
 
-const LANG='en';
-const TX={
-en:{tab:'Table',title:'Online table',intro:'The GM creates a table and sends players an invite link. Sheets sync in real time and every roll is visible to the table.',
- your_name:'Your name at the table',create_title:'Create a table',create_ph:'Table name',create_btn:'Create',join_title:'Join a table',join_ph:'Invite link or code',join_btn:'Join',
+const TX={tab:'Table',title:'Online table',intro:'The GM creates a table and sends players an invite link. Sheets sync in real time and every roll is visible to the table.',
+ your_name:'Display name at the table',err_name:'Enter a display name. It is shown to other players.',create_title:'Create a table',create_ph:'Table name',create_btn:'Create',join_title:'Join a table',join_ph:'Invite link or code',join_btn:'Join',
  my_tables:'My tables',none:'No tables yet.',open:'Open',gm:'GM',player:'Player',members:'Members',chars:'Characters',invite:'Invite link',copy:'Copy',copied:'Copied',
  newlink:'New link',newlink_confirm:'The old link will stop working. Continue?',kick:'Remove',kick_confirm:'Remove this player from the table?',leave:'Leave table',
  leave_confirm:'Leave this table? Your sheet stays with the GM.',delroom:'Delete table',delroom_confirm:'Delete the table with all sheets and rolls? This cannot be undone.',
  close:'Close table',open_sheet:'Open sheet',you:'you',npc_add:'+ NPC',npc_name:'NPC name',delchar:'Delete',delchar_confirm:'Delete this sheet?',
  rolls:'Roll log (last hour)',no_rolls:'No rolls yet.',editing:'Editing',viewing:'Viewing',readonly:'read-only',pick_sheet:'Pick a character on the Table tab',
  back_to_table:'Back to table',sync_ok:'Synced',sync_busy:'Syncing…',sync_err:'Offline, retrying…',reset_confirm:'Reset this character at the table?',
- seed_confirm:'Upload your local sheet to this table?',err_anon:'Anonymous sign-in is disabled in Supabase (Authentication → Sign In / Providers).',
- err_full:'This table is full.',err_invite:'Invalid or outdated invite.',err_limit:'Limit reached: up to 3 tables per GM.',err_generic:'Error: ',
- invited:'You have been invited to a table. Enter your name and press Join.',seats:'seats'}
-};
-const t=k=>(TX[LANG][k]??TX.en[k]??k);
+ seed_confirm:'Upload your local sheet to this table?',err_full:'This table is full.',err_invite:'Invalid or outdated invite.',err_limit:'Limit reached: up to 3 tables per GM.',
+ err_generic:'Error: ',invited:'You have been invited to a table. Enter your name and press Join.',seats:'seats',
+ my_sheet:'My sheet',party:'Party',reveal:'Reveal to players',unreveal:'Hide from players',hidden_tag:'hidden',shown_tag:'revealed',sign_out:'Sign out'};
+const t=k=>TX[k]??k;
 
 const DEFAULT=()=>({pilotName:'',pronouns:'',background:'',description:'',notes:'',base:{Sun:1,Moon:1,Shade:1,Health:2,Fuel:2},spark:'Pyre',inventory:{},installed:[],assignments:{},currentResources:{},thralls:{}});
 const clone=o=>JSON.parse(JSON.stringify(o));
+function canon(o){if(Array.isArray(o))return o.map(canon);if(o&&typeof o==='object'){const r={};Object.keys(o).sort().forEach(k=>{r[k]=canon(o[k])});return r}return o}
+const cj=o=>JSON.stringify(canon(o));
 
-let session=null,myId=null;
-const R={room:null,role:null,members:[],chars:new Map(),rolls:[],invite:null,channel:null,view:null,canEdit:false,
-  dirty:false,timer:null,lastPushed:'',localSeed:null,rooms:[],msg:'',pendingCode:''};
+let session=null,myId=null,myUser='',curTab='character';
+const R={room:null,role:null,members:[],chars:new Map(),secrets:new Map(),rolls:[],invite:null,channel:null,view:null,canEdit:false,
+  dirty:false,timer:null,lastPushed:'',lastSecretPushed:'',localSeed:null,rooms:[],msg:'',pendingCode:'',partyOpen:window.innerWidth>=1100};
 
 /* ---------- helpers ---------- */
 const myName=()=>localStorage.getItem('nova-display-name')||'';
-function readName(){const v=(($('tbName')&&$('tbName').value)||'').trim()||myName()||state.pilotName||'';localStorage.setItem('nova-display-name',v);return v}
+function readName(){const v=(($('tbName')&&$('tbName').value)||'').trim()||myName();if(v)localStorage.setItem('nova-display-name',v);return v}
 const isTableOpen=()=>$('table').classList.contains('active');
 function parseCode(s){s=(s||'').trim();const m=s.match(/join=([A-Za-z0-9_-]+)/);return m?m[1]:(/^[A-Za-z0-9_-]{8,}$/.test(s)?s:'')}
 function genCode(){const a=new Uint8Array(8);crypto.getRandomValues(a);return [...a].map(x=>x.toString(16).padStart(2,'0')).join('')}
 const charName=c=>(c.data&&c.data.pilotName)||c.name||'—';
+const ownChar=()=>[...R.chars.values()].find(c=>c.owner_id===myId);
+const canSeeArmory=()=>!R.room||!!(R.view&&R.canEdit);
 function setSync(k){if(R.room)$('saveState').textContent=t(k)}
 function toast(html){const box=$('toasts'),el=document.createElement('div');el.className='toast';el.innerHTML=html;box.appendChild(el);setTimeout(()=>el.remove(),7000);while(box.children.length>3)box.firstChild.remove()}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
 function showErr(err){
   const m=(err&&err.message)||String(err);
-  if(/anonymous/i.test(m)&&/disabled/i.test(m))R.msg=t('err_anon');
-  else if(/room is full/i.test(m))R.msg=t('err_full');
+  if(/room is full/i.test(m))R.msg=t('err_full');
   else if(/invalid invite/i.test(m))R.msg=t('err_invite');
   else if(/room limit/i.test(m))R.msg=t('err_limit');
   else R.msg=t('err_generic')+m;
   setTab('table');renderTable();
 }
 
-/* ---------- auth ---------- */
-async function ensureAuth(){
-  if(session)return session;
+/* ---------- login gate ---------- */
+const DEV_KEY='nova-device';
+const saveDevice=(u,c)=>{try{localStorage.setItem(DEV_KEY,JSON.stringify({u,c}))}catch(e){}};
+const clearDevice=()=>{try{localStorage.removeItem(DEV_KEY)}catch(e){}};
+async function ensureSession(){
   let {data:{session:s}}=await sb.auth.getSession();
   if(!s){const {data,error}=await sb.auth.signInAnonymously();if(error)throw error;s=data.session}
-  session=s;myId=s.user.id;return s;
+  session=s;return s;
 }
-sb.auth.onAuthStateChange((_e,s)=>{session=s;myId=s&&s.user?s.user.id:null});
+async function tryAutoLogin(){
+  let d=null;try{d=JSON.parse(localStorage.getItem(DEV_KEY)||'null')}catch(e){}
+  if(!d||!d.u||!d.c)return null;
+  try{
+    await ensureSession();
+    const r=await rpc('login',{p_username:d.u,p_code:d.c});
+    if(r&&r.ok)return r;
+    if(r&&(r.error==='invalid'||r.error==='taken'))clearDevice();
+  }catch(e){}
+  return null;
+}
+function showGate(msg){
+  document.body.classList.add('locked','gate-on');document.title='Sign in';
+  $('gMsg').textContent=msg||'';setTimeout(()=>{const u=$('gUser');if(u)u.focus()},50);
+}
+async function unlock(me){
+  myId=me.id;myUser=me.username;
+  document.body.classList.remove('locked','gate-on');document.title=ORIG_TITLE;
+  $('userTag').textContent=myUser;$('gCode').value='';
+  try{await loadMyRooms()}catch(e){}
+  const m=location.hash.match(/join=([A-Za-z0-9_-]+)/);
+  if(m){R.pendingCode=m[1];setTab('table')}
+  else{
+    const last=localStorage.getItem('nova-last-room');
+    if(last&&R.rooms.some(r=>r.id===last)){try{await openRoom(last);setTab('character')}catch(e){}}
+  }
+  renderTable();
+}
+async function lockApp(msg){
+  try{await closeRoom(true)}catch(e){}
+  myId=null;myUser='';R.rooms=[];R.msg='';
+  showGate(msg);
+}
+$('gateForm').addEventListener('submit',async ev=>{
+  ev.preventDefault();
+  const u=$('gUser').value.trim(),c=$('gCode').value.trim(),btn=$('gBtn');
+  if(!u||!c){$('gMsg').textContent='Enter your username and access code.';return}
+  btn.disabled=true;$('gMsg').textContent='';
+  try{
+    await ensureSession();
+    const r=await rpc('login',{p_username:u,p_code:c});
+    if(r&&r.ok){saveDevice(u,c);await unlock(r)}
+    else{
+      const e=r&&r.error;
+      $('gMsg').textContent=e==='throttled'?'Too many attempts. Try again later.':e==='taken'?'This username is already taken.':'Invalid username or access code.';
+    }
+  }catch(err){$('gMsg').textContent='Sign-in is unavailable. Check your connection and try again.'}
+  finally{btn.disabled=false}
+});
+$('signOutBtn').onclick=async()=>{
+  clearDevice();
+  try{await closeRoom(true)}catch(e){}
+  try{await rpc('logout')}catch(e){}
+  myId=null;myUser='';R.rooms=[];R.msg='';showGate();
+};
+sb.auth.onAuthStateChange((_e,s)=>{session=s});
 
 /* ---------- loading data ---------- */
 async function loadMyRooms(){
@@ -280,59 +362,70 @@ async function loadMyRooms(){
 }
 async function fetchRoom(id){
   const since=new Date(Date.now()-3600e3).toISOString();
-  const [room,mem,chr,rol,inv]=await Promise.all([
+  const [room,mem,chr,sec,rol,inv]=await Promise.all([
     sb.from('rooms').select('id,name,max_members').eq('id',id).maybeSingle(),
     sb.from('room_members').select('user_id,role,display_name').eq('room_id',id),
-    sb.from('characters').select('id,owner_id,name,data,updated_at').eq('room_id',id),
+    sb.from('characters').select('id,owner_id,name,data,revealed,updated_at').eq('room_id',id),
+    sb.from('character_secrets').select('character_id,data').eq('room_id',id),
     sb.from('rolls').select('*').eq('room_id',id).gte('created_at',since).order('created_at',{ascending:false}).limit(60),
     sb.from('room_invites').select('code').eq('room_id',id).maybeSingle()
   ]);
-  for(const r of [room,mem,chr,rol])if(r.error)throw r.error;
-  return {room:room.data,members:mem.data||[],chars:chr.data||[],rolls:rol.data||[],invite:inv.data?inv.data.code:null};
+  for(const r of [room,mem,chr,sec,rol])if(r.error)throw r.error;
+  return {room:room.data,members:mem.data||[],chars:chr.data||[],secrets:sec.data||[],rolls:rol.data||[],invite:inv.data?inv.data.code:null};
 }
 function applyFetched(f){
-  R.room=f.room;R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));R.rolls=f.rolls;R.invite=f.invite;
+  R.room=f.room;R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));
+  R.secrets=new Map(f.secrets.map(s=>[s.character_id,s.data]));R.rolls=f.rolls;R.invite=f.invite;
   const me=R.members.find(m=>m.user_id===myId);R.role=me?me.role:null;
 }
 
 /* ---------- sheet <-> room ---------- */
-function loadIntoSheet(data){
+function loadIntoSheet(data,secret){
   state=DEFAULT();
-  if(data&&data.base&&data.inventory)normalizeState(data);
+  if(data&&data.base){
+    const v={...data};
+    if(secret&&secret.inventory)v.inventory=secret.inventory;else if(!v.inventory)v.inventory={};
+    normalizeState(v);
+  }
   render();
 }
 function applyMode(){
   const inRoom=!!R.room,ro=inRoom&&!(R.view&&R.canEdit);
   ['character','spark','armory'].forEach(id=>{$(id).inert=ro});
   ['importBtn','resetBtn'].forEach(id=>{$(id).disabled=ro});
+  const armBtn=document.querySelector('nav [data-tab=armory]');
+  if(armBtn)armBtn.hidden=!canSeeArmory();
+  if(curTab==='armory'&&!canSeeArmory())setTab('character');
   const b=$('viewBanner');
-  if(!inRoom){b.hidden=true;return}
-  const c=R.view&&R.chars.get(R.view);
+  if(!inRoom){b.hidden=true;syncParty();return}
+  const c=R.view&&R.chars.get(R.view),own=ownChar();
   const txt=c?`${R.canEdit?t('editing'):t('viewing')}: ${charName(c)}${R.canEdit?'':' — '+t('readonly')}`:t('pick_sheet');
-  b.innerHTML=`<span>${esc(txt)}</span><button data-act="totable">${esc(t('back_to_table'))}</button>`;
-  b.hidden=false;
+  b.innerHTML=`<span>${esc(txt)}</span><span class="tb-row">${own&&R.view!==own.id?`<button class="primary" data-act="mysheet">${esc(t('my_sheet'))}</button>`:''}<button data-act="totable">${esc(t('back_to_table'))}</button></span>`;
+  b.hidden=false;syncParty();
 }
 function viewCharacter(id,go){
   const c=R.chars.get(id);if(!c)return;
   pushNow();
   R.view=id;R.canEdit=c.owner_id===myId||R.role==='gm';R.dirty=false;
-  R.lastPushed=JSON.stringify(c.data||{});
+  const sec=R.canEdit?R.secrets.get(id):undefined;
+  R.lastPushed=cj(c.data||{});R.lastSecretPushed=cj((sec&&sec.inventory)||{});
   const empty=!(c.data&&c.data.base);
   if(empty&&c.owner_id===myId&&R.localSeed&&(R.localSeed.pilotName||(R.localSeed.installed||[]).length||Object.keys(R.localSeed.inventory||{}).length)&&confirm(t('seed_confirm'))){
     loadIntoSheet(R.localSeed);R.dirty=true;scheduleRemoteSave();
   }else{
-    loadIntoSheet(c.data);
+    loadIntoSheet(c.data,sec);
     if(empty&&!state.pilotName&&c.name)state.pilotName=c.name;
   }
   applyMode();
-  if(go!==false)setTab('character');
+  if(go)setTab('character');
 }
 function applyRemote(n){
   if(R.dirty)return;
-  const json=JSON.stringify(n.data||{});
-  if(json===R.lastPushed)return;
-  R.lastPushed=json;
-  loadIntoSheet(n.data);
+  const j=cj(n.data||{});
+  if(j===R.lastPushed)return;
+  R.lastPushed=j;
+  const sec=R.canEdit?R.secrets.get(n.id):undefined;
+  loadIntoSheet(n.data,sec);
   applyMode();
 }
 
@@ -341,13 +434,17 @@ function scheduleRemoteSave(){R.dirty=true;setSync('sync_busy');clearTimeout(R.t
 async function pushNow(){
   clearTimeout(R.timer);
   if(!R.dirty||!R.room||!R.view||!R.canEdit)return;
-  const id=R.view,snap=clone(state),json=JSON.stringify(snap),name=(snap.pilotName||'').slice(0,60);
-  R.lastPushed=json;R.dirty=false;
-  const {error}=await sb.from('characters').update({name,data:snap}).eq('id',id);
+  const id=R.view,snap=clone(state),inv=snap.inventory||{};delete snap.inventory;
+  const name=(snap.pilotName||'').slice(0,60),pubJ=cj(snap),invJ=cj(inv);
+  R.lastPushed=pubJ;R.dirty=false;
+  let error=(await sb.from('characters').update({name,data:snap}).eq('id',id)).error;
+  if(!error&&invJ!==R.lastSecretPushed){
+    error=(await sb.from('character_secrets').upsert({character_id:id,data:{inventory:inv}},{onConflict:'character_id'})).error;
+    if(!error){R.lastSecretPushed=invJ;R.secrets.set(id,{inventory:inv})}
+  }
   if(error){R.dirty=true;setSync('sync_err');R.timer=setTimeout(pushNow,5000);return}
   const c=R.chars.get(id);if(c){c.data=snap;c.name=name}
-  setSync('sync_ok');
-  if(isTableOpen())renderTable();
+  setSync('sync_ok');refreshViews();
 }
 const _origSave=save;
 save=function(){
@@ -355,7 +452,12 @@ save=function(){
   if(R.view&&R.canEdit)scheduleRemoteSave();
 };
 const _origSetTab=setTab;
-setTab=function(tab){_origSetTab(tab);if(tab==='table')renderTable()};
+setTab=function(tab){
+  if(tab==='armory'&&!canSeeArmory())tab='character';
+  _origSetTab(tab);curTab=tab;
+  if(tab==='table')renderTable();
+  syncParty();
+};
 const _origReset=$('resetBtn').onclick;
 $('resetBtn').onclick=function(ev){
   if(R.room){if(R.view&&R.canEdit&&confirm(t('reset_confirm'))){state=DEFAULT();save();render()}return}
@@ -373,6 +475,7 @@ window.onRoll=async function(stat,rolls,kept,out){
 function subscribe(id){
   R.channel=sb.channel('room-'+id)
     .on('postgres_changes',{event:'*',schema:'public',table:'characters',filter:'room_id=eq.'+id},onChar)
+    .on('postgres_changes',{event:'*',schema:'public',table:'character_secrets',filter:'room_id=eq.'+id},onSecret)
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'rolls',filter:'room_id=eq.'+id},onRollEvent)
     .on('postgres_changes',{event:'*',schema:'public',table:'room_members',filter:'room_id=eq.'+id},onMember)
     .subscribe(status=>{
@@ -383,14 +486,21 @@ function subscribe(id){
 function onChar(p){
   if(p.eventType==='DELETE'){
     const id=p.old&&p.old.id;if(!id||!R.chars.has(id))return;
-    R.chars.delete(id);
-    if(R.view===id){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({});applyMode()}
+    R.chars.delete(id);R.secrets.delete(id);
+    if(R.view===id){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({});}
   }else{
     const n=p.new;R.chars.set(n.id,n);
     if(R.view===n.id)applyRemote(n);
-    applyMode();
   }
-  if(isTableOpen())renderTable();
+  applyMode();refreshViews();
+}
+function onSecret(p){
+  const n=p.new;if(!n||!n.character_id)return;
+  R.secrets.set(n.character_id,n.data);
+  if(R.view===n.character_id&&R.canEdit&&!R.dirty){
+    const j=cj((n.data&&n.data.inventory)||{});
+    if(j!==R.lastSecretPushed){R.lastSecretPushed=j;const c=R.chars.get(R.view);loadIntoSheet(c&&c.data,n.data);applyMode()}
+  }
 }
 function onRollEvent(p){
   const r=p.new;if(R.rolls.some(x=>x.id===r.id))return;
@@ -399,7 +509,7 @@ function onRollEvent(p){
     const dice=(r.dice||[]).map((n,i)=>`<span class="die ${i===r.kept_index?'kept':''}">${n}</span>`).join('');
     toast(`<b>${esc(r.actor)}</b> · ${esc(r.label)}<div class="roll-dice">${dice}</div><b>${esc(r.outcome)}</b>`);
   }
-  if(isTableOpen())renderTable();
+  refreshViews();
 }
 async function onMember(p){
   if(p.eventType==='DELETE'){
@@ -410,7 +520,7 @@ async function onMember(p){
     const n=p.new,i=R.members.findIndex(m=>m.user_id===n.user_id);
     if(i>=0)R.members[i]=n;else R.members.push(n);
   }
-  if(isTableOpen())renderTable();
+  refreshViews();
 }
 async function refreshRoom(){
   if(!R.room)return;
@@ -418,23 +528,28 @@ async function refreshRoom(){
     const f=await fetchRoom(R.room.id);
     if(!f.room||!f.members.some(m=>m.user_id===myId)){await closeRoom(true);await loadMyRooms();renderTable();return}
     const viewing=R.view;
-    R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));R.rolls=f.rolls;R.invite=f.invite;
-    if(viewing&&R.chars.has(viewing))applyRemote(R.chars.get(viewing));
-    applyMode();
-    if(isTableOpen())renderTable();
+    R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));
+    R.secrets=new Map(f.secrets.map(s=>[s.character_id,s.data]));R.rolls=f.rolls;R.invite=f.invite;
+    if(viewing&&!R.chars.has(viewing)){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({})}
+    else if(viewing){
+      const c=R.chars.get(viewing),sj=cj(((R.secrets.get(viewing)||{}).inventory)||{});
+      if(!R.dirty&&R.canEdit&&sj!==R.lastSecretPushed){R.lastSecretPushed=sj;R.lastPushed=cj(c.data||{});loadIntoSheet(c.data,R.secrets.get(viewing))}
+      else applyRemote(c);
+    }
+    applyMode();refreshViews();
   }catch(e){setSync('sync_err')}
 }
 
 /* ---------- open / close ---------- */
 async function openRoom(id){
-  await ensureAuth();
+  if(!myId)throw new Error('not logged in');
   if(R.room){await closeRoom(false)}else{R.localSeed=clone(state)}
   const f=await fetchRoom(id);
   if(!f.room)throw new Error('invalid invite');
   applyFetched(f);R.view=null;R.canEdit=false;R.dirty=false;
   localStorage.setItem('nova-last-room',id);
   subscribe(id);
-  const own=[...R.chars.values()].find(c=>c.owner_id===myId);
+  const own=ownChar();
   if(own)viewCharacter(own.id,false);else{loadIntoSheet({})}
   applyMode();setSync('sync_ok');setTab('table');
 }
@@ -442,7 +557,7 @@ async function closeRoom(restore){
   await pushNow();
   clearTimeout(R.timer);
   if(R.channel){try{await sb.removeChannel(R.channel)}catch(e){}R.channel=null}
-  Object.assign(R,{room:null,role:null,view:null,canEdit:false,members:[],chars:new Map(),rolls:[],invite:null,dirty:false});
+  Object.assign(R,{room:null,role:null,view:null,canEdit:false,members:[],chars:new Map(),secrets:new Map(),rolls:[],invite:null,dirty:false});
   if(restore){
     R.localSeed=null;localStorage.removeItem('nova-last-room');
     state=DEFAULT();load();render();$('saveState').textContent='Saved';
@@ -451,32 +566,44 @@ async function closeRoom(restore){
 }
 
 /* ---------- rendering ---------- */
-function statsLine(c){
-  const d=c.data||{};if(!d.base)return '<span class="muted">—</span>';
+function calcStats(c){
+  const d=c.data||{};if(!d.base)return null;
   let e=null;const prev=state;
   try{state={...DEFAULT(),...d};e=effective()}catch(err){e=null}finally{state=prev}
-  if(!e)return '<span class="muted">—</span>';
+  if(!e)return null;
   const cur=(d.currentResources&&d.currentResources[d.spark])||{};
-  const hp=cur.Health??e.vals.Health,fu=cur.Fuel??e.vals.Fuel;
-  return `Health ${hp}/${e.vals.Health} · Fuel ${fu}/${e.vals.Fuel}<br>Sun ${e.vals.Sun} · Moon ${e.vals.Moon} · Shade ${e.vals.Shade}`;
+  return {v:e.vals,hp:cur.Health??e.vals.Health,fu:cur.Fuel??e.vals.Fuel};
 }
+function statsLine(c){
+  const s=calcStats(c);if(!s)return '<span class="muted">—</span>';
+  return `Health ${s.hp}/${s.v.Health} · Fuel ${s.fu}/${s.v.Fuel}<br>Sun ${s.v.Sun} · Moon ${s.v.Moon} · Shade ${s.v.Shade}`;
+}
+function miniStats(c){const s=calcStats(c);return s?`HP ${s.hp}/${s.v.Health} · Fuel ${s.fu}/${s.v.Fuel}`:'—'}
+const sortedChars=()=>[...R.chars.values()].sort((a,b)=>(b.owner_id===myId)-(a.owner_id===myId)||charName(a).localeCompare(charName(b)));
+const recentRolls=()=>{const cut=Date.now()-3600e3;return R.rolls.filter(r=>new Date(r.created_at).getTime()>cut)};
+function rollHTML(r){
+  const when=new Date(r.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const dice=(r.dice||[]).map((n,i)=>`<span class="die ${i===r.kept_index?'kept':''}">${n}</span>`).join('');
+  return `<div class="tb-roll"><span class="when">${when}</span><span><b>${esc(r.actor)}</b> · ${esc(r.label)}</span><div class="roll-dice">${dice}</div><b>${esc(r.outcome)}</b></div>`;
+}
+function refreshViews(){if(isTableOpen())renderTable();renderParty()}
 function renderTable(){
   const root=$('tableRoot');if(!root)return;
   const keep={};['tbName','tbCreate','tbJoin'].forEach(id=>{const el=$(id);if(el)keep[id]=el.value});
   root.innerHTML=R.room?roomHTML():lobbyHTML();
   for(const id in keep){const el=$(id);if(el&&keep[id])el.value=keep[id]}
+  if(!R.room&&$('tbName')&&!$('tbName').value)$('tbName').value=myName();
 }
 function msgHTML(){return R.msg?`<div class="tb-msg">${esc(R.msg)}</div>`:''}
 function lobbyHTML(){
   const rooms=R.rooms.length?`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('my_tables')}</h3>${R.rooms.map(r=>`<div class="tb-row between" style="margin:8px 0"><span><b>${esc(r.name)}</b> <span class="tag">${t(r.role==='gm'?'gm':'player')}</span></span><button data-act="open_room" data-id="${r.id}">${t('open')}</button></div>`).join('')}</div>`:'';
   return `<div class="card"><div class="eyebrow">${t('title')}</div><h2>${t('tab')}</h2><p class="muted small">${t('intro')}</p>${R.pendingCode?`<div class="tb-msg">${t('invited')}</div>`:''}${msgHTML()}
-  <div class="field"><label>${t('your_name')}</label><input id="tbName" type="text" maxlength="40" value="${esc(myName())}"></div>
+  <div class="field"><label>${t('your_name')}</label><input id="tbName" type="text" maxlength="40" placeholder="Shown to other players" value="${esc(myName())}"></div>
   <div class="two"><div><h3 class="spark-section-title">${t('create_title')}</h3><div class="field"><input id="tbCreate" type="text" maxlength="60" placeholder="${t('create_ph')}"></div><button class="primary" data-act="create">${t('create_btn')}</button></div>
   <div><h3 class="spark-section-title">${t('join_title')}</h3><div class="field"><input id="tbJoin" type="text" placeholder="${t('join_ph')}" value="${esc(R.pendingCode)}"></div><button class="primary" data-act="join">${t('join_btn')}</button></div></div></div>${rooms}`;
 }
 function roomHTML(){
-  const gm=R.role==='gm';
-  const chars=[...R.chars.values()].sort((a,b)=>(b.owner_id===myId)-(a.owner_id===myId)||charName(a).localeCompare(charName(b)));
+  const gm=R.role==='gm',chars=sortedChars();
   const link=R.invite?location.href.split('#')[0]+'#join='+R.invite:'';
   const head=`<div class="card"><div class="eyebrow">${t('title')} · ${R.members.length}/${R.room.max_members} ${t('seats')}</div><div class="tb-row between"><h2 style="margin:0">${esc(R.room.name)} <span class="tag">${t(gm?'gm':'player')}</span></h2>
    <div class="tb-row"><button data-act="close">${t('close')}</button>${gm?`<button data-act="delroom">${t('delroom')}</button>`:`<button data-act="leave">${t('leave')}</button>`}</div></div>${msgHTML()}
@@ -485,19 +612,33 @@ function roomHTML(){
     const me=c.owner_id===myId,owner=R.members.find(m=>m.user_id===c.owner_id);
     const sub=c.owner_id?(owner?owner.display_name:'—'):'NPC';
     const spark=c.data&&c.data.spark?String(c.data.spark).toUpperCase():'';
-    return `<div class="tb-char ${me?'me':''}"><div class="tb-name">${esc(charName(c))}${me?` <span class="tag">${t('you')}</span>`:''}</div><div class="tb-sub">${esc(sub)}${spark?' · '+esc(spark):''}</div><div class="tb-stats">${statsLine(c)}</div>
-     <div class="tb-row"><button class="primary" data-act="view" data-id="${c.id}">${t('open_sheet')}</button>${gm?`<button data-act="delchar" data-id="${c.id}">${t('delchar')}</button>`:''}</div></div>`;
+    const npcTag=!c.owner_id?` <span class="tag">${t(c.revealed?'shown_tag':'hidden_tag')}</span>`:'';
+    return `<div class="tb-char ${me?'me':''}"><div class="tb-name">${esc(charName(c))}${me?` <span class="tag">${t('you')}</span>`:''}${npcTag}</div><div class="tb-sub">${esc(sub)}${spark?' · '+esc(spark):''}</div><div class="tb-stats">${statsLine(c)}</div>
+     <div class="tb-row"><button class="primary" data-act="view" data-id="${c.id}">${t('open_sheet')}</button>${gm&&!c.owner_id?`<button data-act="reveal" data-id="${c.id}" data-val="${c.revealed?0:1}">${t(c.revealed?'unreveal':'reveal')}</button>`:''}${gm?`<button data-act="delchar" data-id="${c.id}">${t('delchar')}</button>`:''}</div></div>`;
   }).join('');
   const chardiv=`<div class="card" style="margin-top:16px"><div class="tb-row between"><h3 class="spark-section-title" style="margin:0">${t('chars')}</h3>${gm?`<button data-act="addnpc">${t('npc_add')}</button>`:''}</div><div class="tb-chars">${cards}</div></div>`;
   const members=`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('members')}</h3><div class="tb-members">${R.members.map(m=>`<div class="tb-row between"><span>${esc(m.display_name)} <span class="tag">${t(m.role==='gm'?'gm':'player')}</span></span>${gm&&m.role==='player'?`<button data-act="kick" data-id="${m.user_id}">${t('kick')}</button>`:''}</div>`).join('')}</div></div>`;
-  const cutoff=Date.now()-3600e3;
-  const rolls=R.rolls.filter(r=>new Date(r.created_at).getTime()>cutoff);
-  const log=`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('rolls')}</h3><div class="tb-log">${rolls.length?rolls.map(r=>{
-    const when=new Date(r.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    const dice=(r.dice||[]).map((n,i)=>`<span class="die ${i===r.kept_index?'kept':''}">${n}</span>`).join('');
-    return `<div class="tb-roll"><span class="when">${when}</span><span><b>${esc(r.actor)}</b> · ${esc(r.label)}</span><div class="roll-dice">${dice}</div><b>${esc(r.outcome)}</b></div>`;
-  }).join(''):`<span class="muted small">${t('no_rolls')}</span>`}</div></div>`;
+  const rolls=recentRolls();
+  const log=`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('rolls')}</h3><div class="tb-log">${rolls.length?rolls.map(rollHTML).join(''):`<span class="muted small">${t('no_rolls')}</span>`}</div></div>`;
   return head+chardiv+members+log;
+}
+/* right-hand party panel (shown on the sheet tabs) */
+function syncParty(){
+  const show=!!R.room&&['character','spark','armory'].includes(curTab);
+  $('partyToggle').hidden=!show;$('party').hidden=!show;
+  document.body.classList.toggle('party-open',show&&R.partyOpen);
+  if(show)renderParty();
+}
+function renderParty(){
+  const body=$('partyBody');if(!body||$('party').hidden||!R.room)return;
+  const own=ownChar();
+  const rows=sortedChars().map(c=>{
+    const tag=!c.owner_id?` <span class="tag">${t(c.revealed?'shown_tag':'hidden_tag')}</span>`:'';
+    return `<button class="pt-row ${c.id===R.view?'on':''}" data-act="view" data-id="${c.id}"><span class="pt-name">${esc(charName(c))}${c.owner_id===myId?` <span class="tag">${t('you')}</span>`:''}${tag}</span><span class="pt-sub">${esc(miniStats(c))}</span></button>`;
+  }).join('');
+  const rolls=recentRolls().slice(0,15);
+  body.innerHTML=`${own&&R.view!==own.id?`<button class="primary" data-act="mysheet" style="width:100%;margin-bottom:10px">${t('my_sheet')}</button>`:''}<div class="pt-list">${rows}</div>
+   <h3 class="spark-section-title" style="margin-top:16px">${t('rolls')}</h3><div class="tb-log" style="max-height:none">${rolls.length?rolls.map(rollHTML).join(''):`<span class="muted small">${t('no_rolls')}</span>`}</div>`;
 }
 
 /* ---------- actions ---------- */
@@ -510,19 +651,23 @@ async function act(a,d,btn){
   switch(a){
     case 'create':{
       const name=($('tbCreate').value||'').trim()||'Table',dn=readName();
-      await ensureAuth();const id=await rpc('create_room',{p_name:name,p_display_name:dn});
+      if(!dn){R.msg=t('err_name');renderTable();return}
+      const id=await rpc('create_room',{p_name:name,p_display_name:dn});
       await loadMyRooms();await openRoom(id);break}
     case 'join':{
       const code=parseCode($('tbJoin').value);
       if(!code){R.msg=t('err_invite');renderTable();return}
-      const dn=readName();await ensureAuth();
+      const dn=readName();
+      if(!dn){R.msg=t('err_name');renderTable();return}
       const id=await rpc('join_room',{p_code:code,p_display_name:dn});
       R.pendingCode='';history.replaceState(null,'',location.pathname+location.search);
       await loadMyRooms();await openRoom(id);break}
     case 'open_room':await openRoom(d.id);break;
     case 'close':await closeRoom(true);await loadMyRooms();setTab('table');break;
     case 'totable':setTab('table');break;
-    case 'view':viewCharacter(d.id,true);break;
+    case 'view':viewCharacter(d.id,curTab==='table');break;
+    case 'mysheet':{const own=ownChar();if(own)viewCharacter(own.id,curTab==='table');break}
+    case 'partyclose':R.partyOpen=false;syncParty();break;
     case 'copy':{
       const v=$('tbLink').value;
       try{await navigator.clipboard.writeText(v)}catch(e){$('tbLink').select();document.execCommand('copy')}
@@ -548,35 +693,40 @@ async function act(a,d,btn){
       await closeRoom(true);await loadMyRooms();renderTable();break}
     case 'addnpc':{
       const name=(prompt(t('npc_name'))||'').trim();if(!name)return;
-      const {data,error}=await sb.from('characters').insert({room_id:R.room.id,owner_id:null,name:name.slice(0,60),data:{}}).select('id,owner_id,name,data,updated_at').single();
-      if(error)throw error;R.chars.set(data.id,data);renderTable();break}
+      const {data,error}=await sb.from('characters').insert({room_id:R.room.id,owner_id:null,name:name.slice(0,60),data:{}}).select('id,owner_id,name,data,revealed,updated_at').single();
+      if(error)throw error;R.chars.set(data.id,data);refreshViews();break}
+    case 'reveal':{
+      const val=d.val==='1';
+      const {error}=await sb.from('characters').update({revealed:val}).eq('id',d.id);if(error)throw error;
+      const c=R.chars.get(d.id);if(c)c.revealed=val;refreshViews();break}
     case 'delchar':{
       if(!confirm(t('delchar_confirm')))return;
       const {error}=await sb.from('characters').delete().eq('id',d.id);if(error)throw error;
-      R.chars.delete(d.id);
+      R.chars.delete(d.id);R.secrets.delete(d.id);
       if(R.view===d.id){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({});applyMode()}
-      renderTable();break}
+      refreshViews();break}
   }
 }
+$('partyToggle').onclick=()=>{R.partyOpen=true;syncParty()};
 
 /* ---------- lifecycle ---------- */
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='hidden')pushNow();else refreshRoom();
+document.addEventListener('visibilitychange',async ()=>{
+  if(document.visibilityState==='hidden'){pushNow();return}
+  if(!myId)return;
+  try{const me=await rpc('whoami');if(!me){const again=await tryAutoLogin();if(again){myId=again.id;myUser=again.username}else{await lockApp();return}}}catch(e){}
+  refreshRoom();
 });
 window.addEventListener('pagehide',()=>{pushNow()});
 document.addEventListener('input',ev=>{if(ev.target.id==='tbName')localStorage.setItem('nova-display-name',ev.target.value)});
 
 (async()=>{
-  const m=location.hash.match(/join=([A-Za-z0-9_-]+)/);
-  if(m){R.pendingCode=m[1];setTab('table')}
   try{
     const {data:{session:s}}=await sb.auth.getSession();
-    if(s){session=s;myId=s.user.id;await loadMyRooms();
-      const last=localStorage.getItem('nova-last-room');
-      if(last&&!R.pendingCode&&R.rooms.some(r=>r.id===last))await openRoom(last).then(()=>{setTab('character')});
-    }
+    if(s){session=s;const me=await rpc('whoami');if(me){await unlock(me);return}}
+    const again=await tryAutoLogin();
+    if(again){await unlock(again);return}
   }catch(e){}
-  renderTable();
+  showGate();
 })();
 })();
 
