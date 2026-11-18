@@ -1,210 +1,15 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in</title>
-<style>
-:root{color-scheme:dark;--ink:#f2f0ed;--paper:#202126;--ground:#111216;--muted:#a5a6ad;--line:#41434a;--accent:#d94b35;--accent-pale:#3a211e;--purple:#e2a34a;--purple-pale:#3b3020;--red:#e45b45}body.light{color-scheme:light;--ink:#171717;--paper:#fff;--ground:#e9e7e3;--muted:#686868;--line:#d2cec8;--accent:#bd352b;--accent-pale:#f8e9e5;--purple:#bd7a27;--purple-pale:#f6eddf;--red:#b42318}
-*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
-.top{background-color:#100d0e;background-image:radial-gradient(circle at 18% 50%,rgba(240,24,45,.2) 0 1px,transparent 1.7px),repeating-conic-gradient(from -8deg at 20% 54%,rgba(240,24,45,.13) 0deg 1.1deg,transparent 1.1deg 13deg),linear-gradient(90deg,rgba(16,13,14,.08),#100d0e 62%);background-size:9px 9px,100% 220%,100% 100%;background-position:0 0,center 48%,center; color:#fff;padding:24px max(22px,calc((100vw - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border-bottom:5px solid #f0182d;position:relative;isolation:isolate;overflow:hidden}.top:after{content:"";position:absolute;z-index:-1;left:5%;top:-110%;width:430px;height:320%;background:radial-gradient(ellipse,rgba(240,24,45,.2),transparent 68%);pointer-events:none}
-.brand{display:flex;align-items:baseline;gap:13px;position:relative;z-index:1}.brand-title{display:flex;align-items:baseline;gap:10px;white-space:nowrap}h1{font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif;font-size:clamp(32px,4vw,48px);line-height:.9;letter-spacing:.13em;margin:0;font-weight:400;color:#f0182d;text-transform:uppercase;text-shadow:none;-webkit-text-stroke:0;font-stretch:condensed}.brand-divider{font:900 25px/1 Impact,"Arial Narrow",sans-serif;color:#f0182d}.subtitle{font-family:Impact,"Arial Narrow",sans-serif;font-size:19px;letter-spacing:.09em;color:#f2eee9;text-transform:uppercase;margin:0}
-button,input,select,textarea{font:inherit}button{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:9px 13px;cursor:pointer;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.06em}button:hover{border-color:var(--accent)}button.primary{background:var(--accent);border-color:var(--accent);color:var(--ink)}button:disabled{opacity:.35;cursor:not-allowed}.save-state{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#c9bfc0;margin-right:5px}.top button{background:rgba(16,13,14,.55);border-color:#6d3439;color:white}.top button:hover{border-color:var(--accent);color:var(--accent)}
-nav{display:flex;gap:0;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;padding:0 max(22px,calc((100vw - 1180px)/2))}nav button{border:0;border-bottom:3px solid transparent;background:white;padding:16px 22px;color:#697180}nav button.active{border-bottom-color:var(--accent);color:var(--ink)}
-main{max-width:1180px;margin:26px auto;padding:0 18px 60px}.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--paper);border:1px solid var(--line);padding:20px;min-width:0;box-shadow:0 2px 0 rgba(23,25,35,.04)}.s12{grid-column:span 12}.s8{grid-column:span 8}.s7{grid-column:span 7}.s6{grid-column:span 6}.s5{grid-column:span 5}.s4{grid-column:span 4}
-h2{font-size:21px;line-height:1.1;margin:0 0 16px;text-transform:uppercase;letter-spacing:.04em}h3{font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin:0 0 10px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);font-weight:900;margin-bottom:7px}.muted{color:var(--muted)}.small{font-size:12px}.field{margin-bottom:14px}label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--muted);margin-bottom:6px}input[type=text],textarea,select{width:100%;border:1px solid var(--line);padding:10px 11px;background:var(--paper);color:var(--ink);border-radius:0}textarea{min-height:100px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.statgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.stat{border:1px solid var(--line);padding:10px 12px;position:relative}.stat strong{font-size:11px;text-transform:uppercase;letter-spacing:.1em}.stat .num{font-size:27px;font-weight:900;line-height:1.1;margin:8px 0}.step{display:flex;gap:7px;align-items:center}.step button{padding:3px 9px;min-width:27px}.step b{min-width:20px;text-align:center;font-variant-numeric:tabular-nums}.points{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:11px}
-.spark-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.spark-picker{position:relative;margin-bottom:14px}.spark-picker summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--paper);padding:10px 14px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.spark-picker summary::-webkit-details-marker{display:none}.spark-drawer{position:absolute;z-index:8;top:calc(100% + 6px);left:0;width:min(620px,90vw);max-height:65vh;overflow:auto;padding:12px;background:var(--paper);border:1px solid var(--line);box-shadow:0 16px 40px #0009}.spark-drawer .spark-list{grid-template-columns:repeat(3,1fr)}.spark-choice{min-height:0;padding:9px}.spark-choice.selected{padding:8px}.spark-choice{text-align:left;padding:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);min-height:0}.spark-choice b{display:block;font-size:14px;letter-spacing:.08em}.spark-choice small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.spark-choice.selected{border:2px solid var(--accent);padding:13px;background:var(--accent-pale)}
-.modlist{display:grid;gap:8px}.mod{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);padding:12px}.mod.installed{border-left:4px solid var(--accent);background:var(--accent-pale)}.mod h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}.mod p{margin:0;font-size:12px;color:var(--muted)}.tag{display:inline-block;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;padding:3px 6px;background:#383a40;color:#eee;margin-left:5px}.tag.power{background:var(--purple-pale);color:#6d32a3}.tag.persistent{background:var(--accent-pale);color:#08783b}.mod-actions{display:flex;gap:6px;flex-wrap:wrap}.mod-actions button{padding:7px 9px}.target{margin-top:9px;max-width:260px}.powerbox{border:1px solid var(--line);padding:14px;margin-bottom:9px;border-left:3px solid var(--purple)}.power-mods{margin-top:12px;border-top:1px solid var(--line);padding-top:9px}.power-mods .mod{padding:8px;margin-top:6px}.power-mods .mod p{font-size:11px}.powerbox.passive{border-left-color:var(--accent)}.ability-text{font-size:13px;line-height:1.45}.ability-upgrade{display:block;margin-top:5px;padding-top:5px;border-top:1px solid var(--line);color:var(--accent);font-weight:600}.powerbox h4{font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 7px}.powerbox p{font-size:13px;margin:0}.effect{margin-top:10px;padding:9px 11px;background:var(--purple-pale);font-size:12px}.effect b{display:block;text-transform:uppercase;font-size:10px;letter-spacing:.1em;margin-bottom:3px}
-.pills{display:flex;flex-wrap:wrap;gap:7px}.pill{border:1px solid #a5e9bb;background:var(--accent-pale);padding:7px 9px;font-size:11px}.notice{padding:10px 12px;background:var(--accent-pale);font-size:12px;margin:10px 0}.notice.good{background:var(--accent-pale)}.notice.warn{background:#47251f;color:#ffd0c6}
-.catalog-tools{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:16px 0}.catalog-entry{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:12px;padding:13px 0;border-top:1px solid var(--line)}.catalog-entry h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.07em}.catalog-entry p{margin:0;color:var(--muted);font-size:12px}.avail{font-size:10px;color:var(--muted);margin-top:5px}.count{display:flex;align-items:center;justify-content:flex-end;gap:7px}.count b{min-width:20px;text-align:center}.count button{padding:4px 8px}.ruleline{height:4px;background:var(--ink);width:48px;margin:0 0 14px}.actions{display:flex;gap:8px;flex-wrap:wrap}
-button{background:var(--paper);color:var(--ink);border-color:var(--line)}button.primary{background:var(--accent);border-color:var(--accent);color:#fff}button:hover{border-color:var(--accent)}nav,nav button{background:var(--paper);color:var(--muted)}nav button.active{color:var(--ink);border-bottom-color:var(--accent)}input[type=text],textarea,select{background:var(--paper);color:var(--ink);border-color:var(--line)}.pill{border-color:var(--accent);background:var(--accent-pale);color:var(--ink)}.notice.good{background:var(--accent-pale);color:var(--ink)}.tag.power{background:var(--purple-pale);color:var(--purple)}.tag.persistent{background:var(--accent-pale);color:var(--accent)}.mod.installed{border-left-color:var(--accent);background:var(--accent-pale)}.powerbox.passive{border-left-color:var(--accent)}.powerbox{border-left-color:var(--purple)}.effect{background:var(--purple-pale)}.top{border-bottom-color:var(--accent)}.mark{border-color:var(--accent);color:var(--accent)}.top button:hover{border-color:var(--accent);color:var(--accent)}
-/* Compact character view */
-main{max-width:1060px;margin:14px auto;padding:0 12px 28px}
-.grid{gap:9px}.card{padding:13px}.tab .card h2{font-size:17px;margin-bottom:10px}
-#powerDescriptions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.powerbox{padding:10px;margin:0;min-width:0}.powerbox h4{font-size:12px;margin-bottom:5px}.powerbox p{font-size:12px;line-height:1.35}
-.power-mods{margin-top:8px;padding-top:7px}.power-mods details>summary{cursor:pointer;color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;list-style:none}.power-mods details>summary::-webkit-details-marker{display:none}.power-mods details>summary:after{content:' +';}.power-mods details[open]>summary:after{content:' −';}
-.power-mods .mod{padding:6px;margin-top:5px;gap:6px}.power-mods .mod h4{font-size:10px;margin-bottom:2px}.power-mods .mod p{font-size:10px}.power-mods .avail{font-size:9px}.power-mods .mod-actions button{font-size:9px;padding:5px 6px}
-.effect{margin-top:6px;padding:6px 8px;font-size:10px}.effect b{font-size:9px}
-.statgrid{gap:5px}.stat{padding:7px 9px}.stat .num{font-size:22px;margin:4px 0}.stat-words{display:flex;flex-direction:column;gap:1px;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.35;text-align:left}.stat-words span{display:block}
-.spark-picker{margin-bottom:9px}.spark-picker summary{padding:7px 10px;font-size:12px}.spark-drawer{max-height:55vh}.spark-drawer .spark-list{grid-template-columns:repeat(3,minmax(0,1fr))}.spark-choice b{font-size:11px}.spark-choice small{font-size:9px}
-#persistentList{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.mod{padding:8px;gap:7px}.mod h4{font-size:11px}.mod p{font-size:11px}.mod-actions button{font-size:9px;padding:5px 7px}
-.top{padding:14px max(12px,calc((100vw - 1060px)/2));border-bottom-width:3px}.brand{gap:8px}.brand-title{gap:7px}h1{font-size:32px}.brand-divider{font-size:19px}.subtitle{font-size:15px}.top .actions{gap:5px}.top button{padding:6px 8px;font-size:9px}
-nav button{padding:10px 16px;font-size:10px}
-@media(max-width:760px){.s8,.s7,.s6,.s5,.s4{grid-column:span 12}.statgrid{grid-template-columns:repeat(2,1fr)}.spark-list{grid-template-columns:repeat(2,1fr)}.catalog-tools,.two,.three{grid-template-columns:1fr}.catalog-entry{grid-template-columns:1fr}.count{justify-content:flex-start}.mod{grid-template-columns:1fr}nav{overflow:auto}nav button{padding:14px 15px;white-space:nowrap}}
-
-/* Spark sheet layout, resource trackers, thralls and compact armory */
-.spark-resource-bar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
-.resource-track{border:1px solid var(--line);background:var(--ground);padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
-.resource-track strong{font-size:12px;letter-spacing:.12em;text-transform:uppercase}.resource-track .current{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}.resource-track .step{justify-content:flex-end}.resource-track button{border-color:var(--accent);color:var(--accent);font-size:15px;min-width:32px;padding:3px 8px}
-#effectiveStats{grid-template-columns:repeat(3,minmax(0,1fr))}.catalog-tools{grid-template-columns:2fr repeat(3,minmax(120px,1fr))}.spark-columns{display:grid;grid-template-columns:minmax(240px, .82fr) minmax(0,1.55fr);gap:10px;align-items:start}
-.spark-left,.spark-right{display:grid;gap:10px;min-width:0}.spark-section-title{font-size:12px;letter-spacing:.14em;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px;margin:0 0 9px;font-weight:900}
-#passiveBuffs{display:grid;gap:6px;margin:0 0 10px}.passive-buff{font-size:11px;padding:7px 8px;border-left:3px solid var(--accent);background:var(--accent-pale)}
-#powerDescriptions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#powerDescriptions .powerbox.passive,#powerDescriptions .powerbox.supernova{grid-column:1/-1}
-.powerbox.passive{border:2px solid var(--accent);background:var(--accent-pale)}.powerbox.supernova{border:2px solid var(--purple);background:var(--purple-pale)}
-.ability-upgrade{display:block;margin-top:6px;padding:6px 8px;border:0;border-left:3px solid var(--accent);background:var(--accent-pale);color:var(--ink);font-size:11px;white-space:normal}
-.spark-mod-card{border:1px solid var(--line);padding:9px;background:var(--ground);display:flex;flex-direction:column;gap:7px}.spark-mod-card h4{margin:0;font-size:11px;text-transform:uppercase}.spark-mod-card p{font-size:11px;color:var(--muted);margin:0}.spark-mod-card .mod-actions{margin-top:auto}.spark-mod-card .mod-actions button{padding:5px 8px}.spark-mod-card .buy{border-color:var(--accent);color:var(--accent)}
-#persistentList{grid-template-columns:repeat(3,minmax(0,1fr))}
-.thrall-panel{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}.thrall-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.thrall-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.thrall{border:1px solid var(--line);padding:8px;background:var(--ground)}.thrall-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.thrall-head input{max-width:130px}.thrall-meta{font-size:10px;color:var(--muted);margin:5px 0}
-#catalogList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.catalog-entry{display:flex;flex-direction:column;justify-content:space-between;gap:10px;border:1px solid var(--line);padding:12px;background:var(--ground);min-width:0}.catalog-entry .count{justify-content:flex-start;margin-top:auto}.count button{font-size:17px;font-weight:900;min-width:34px;padding:5px 10px;border:2px solid var(--accent);color:var(--accent);background:var(--accent-pale)}.count button:hover{background:var(--accent);color:white}.count b{font-size:15px;min-width:26px}.spark-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}.spark-tags .tag{margin:0}.spark-tags .tag.spark-tag{background:var(--spark-tag)!important;color:#fff!important;border:1px solid rgba(255,255,255,.55);font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.95),1px 0 1px rgba(0,0,0,.75),-1px 0 1px rgba(0,0,0,.75);-webkit-text-stroke:.35px rgba(0,0,0,.65);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
-@media(max-width:760px){#persistentList{grid-template-columns:repeat(2,minmax(0,1fr))}.spark-columns{grid-template-columns:1fr}.spark-resource-bar{grid-template-columns:1fr 1fr}#powerDescriptions{grid-template-columns:1fr}#catalogList{grid-template-columns:1fr}.thrall-list{grid-template-columns:1fr}}
-
-.spark-tag{margin:4px 4px 0 0;background:var(--spark-tag);color:#fff;border:0}.spark-pyre{--spark-tag:#f28c28}.spark-scorch{--spark-tag:#9b59d0}.spark-voyager{--spark-tag:#e86aa8}.spark-warden{--spark-tag:#b18a62}.spark-pox{--spark-tag:#a7d94b}.spark-grim{--spark-tag:#55bde8}.spark-drifter{--spark-tag:#35a96b}.spark-sanguine{--spark-tag:#d9363e}.spark-infernal{--spark-tag:#8d35bd}
-
-/* Spark identity palette */
-:root{--spark-color:var(--accent)}
-body.spark-pyre{--spark-color:#f28c28} body.spark-scorch{--spark-color:#9b59d0} body.spark-voyager{--spark-color:#e86aa8} body.spark-warden{--spark-color:#b18a62} body.spark-pox{--spark-color:#a7d94b} body.spark-grim{--spark-color:#55bde8} body.spark-drifter{--spark-color:#35a96b} body.spark-sanguine{--spark-color:#d9363e} body.spark-infernal{--spark-color:#8d35bd}
-.spark-section-title,.powerbox.passive,.spark-choice.selected{--accent:var(--spark-color)}
-.spark-section-title{color:var(--spark-color);border-bottom-color:var(--spark-color)}
-.powerbox.passive{border-left-color:var(--spark-color)}
-.spark-choice.selected{border-color:var(--spark-color);background:color-mix(in srgb,var(--spark-color) 13%,var(--paper))}
-.spark-resource-bar .resource-track{border-top:3px solid var(--spark-color)}
-
-/* Apply the selected Spark identity color to every accent inside its sheet. */
-#spark{--accent:var(--spark-color);--accent-pale:color-mix(in srgb,var(--spark-color) 17%,var(--paper));--purple:var(--spark-color);--purple-pale:color-mix(in srgb,var(--spark-color) 14%,var(--paper));--red:var(--spark-color)}
-#spark .powerbox.supernova{border-color:var(--spark-color);background:var(--accent-pale)}
-#spark .power-mods details>summary{color:var(--spark-color)}
-#spark .ability-upgrade,#spark .passive-buff{border-left-color:var(--spark-color);background:var(--accent-pale)}
-#spark .resource-track button,#spark button.primary,#spark .spark-mod-card .buy{border-color:var(--spark-color)}
-#spark button.primary{background:var(--spark-color);color:#fff}
-#spark .spark-mod-card .buy{color:var(--spark-color)}
-
-.spark-left .stat{border-top:2px solid var(--spark-color)}
-.spark-right .thrall-panel{margin-top:10px}
-
-
-/* Final layout refinements */
-#effectiveStats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat-roll{display:block;text-align:left;cursor:pointer;background:var(--paper);color:var(--ink);min-width:0}.stat-roll .num{font-size:22px}.stat-roll small{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.stat-roll:hover{border-color:var(--spark-color);box-shadow:inset 0 -3px var(--spark-color)}
-.roll-result{margin-top:8px;padding:8px 10px;border:1px solid var(--line);min-height:0;font-size:12px}.roll-result:empty{display:none}.roll-dice{display:flex;gap:5px;margin:7px 0}.die{display:grid;place-items:center;width:27px;height:27px;border:1px solid var(--line);font-weight:900}.die.kept{background:var(--spark-color);border-color:var(--spark-color);color:#fff}
-#powerDescriptions{grid-template-columns:repeat(3,minmax(0,1fr))}.spark-mod-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}.spark-mod-card h4,.spark-mod-card p,.spark-mod-card .avail,.spark-mod-card .target{grid-column:1}.spark-mod-card .mod-actions{grid-column:2;grid-row:1 / span 5;flex-direction:column;align-items:stretch}.spark-mod-card .mod-actions button{white-space:nowrap}.catalog-entry{grid-template-columns:minmax(0,1fr) 105px;align-items:center}.count{gap:5px}.count button{color:var(--accent);border:1px solid var(--accent);font-size:15px;font-weight:900;padding:5px 9px}.count{display:flex;flex-direction:row}.catalog-entry .count{justify-self:end}
-@media(max-width:760px){#powerDescriptions{grid-template-columns:repeat(2,minmax(0,1fr))}.spark-mod-card{grid-template-columns:1fr}.spark-mod-card .mod-actions{grid-column:1;grid-row:auto;flex-direction:row}.catalog-entry{grid-template-columns:minmax(0,1fr) 90px}}
-
-#catalogList .catalog-entry{display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:auto auto 1fr;align-items:start;gap:6px 12px;padding:11px;min-height:132px}
-#catalogList .catalog-main{display:contents}
-#catalogList .catalog-title{grid-column:1;grid-row:1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-#catalogList .catalog-title h4{margin:0}
-#catalogList .spark-tags{grid-column:1;grid-row:2;margin:0}
-#catalogList .catalog-description{grid-column:1;grid-row:3;min-width:0}
-#catalogList .catalog-description p{margin:0}
-#catalogList .catalog-description .avail{margin-top:5px}
-#catalogList .catalog-entry>.count{grid-column:2;grid-row:3;align-self:center;justify-self:end;display:flex;flex-direction:row;align-items:center;gap:5px}
-@media(max-width:760px){#catalogList .catalog-entry{grid-template-columns:minmax(0,1fr) 96px}#catalogList .catalog-entry>.count{grid-column:2;grid-row:3;justify-self:end}}
-/* ===== Online table ===== */
-[hidden]{display:none!important}
-#gate{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:var(--ground);z-index:100}
-body.locked.gate-on #gate{display:flex}
-body.locked>*:not(#gate){display:none!important}
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Sign in</title>
+<style>:root{color-scheme:dark;--ink:#f2f0ed;--paper:#202126;--ground:#111216;--muted:#a5a6ad;--line:#41434a;--accent:#d94b35;--accent-pale:#3a211e;--purple:#e2a34a;--purple-pale:#3b3020;--red:#e45b45}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ground);color:var(--ink);font:15px/1.4 system-ui,Arial,sans-serif}
 #gateForm{display:grid;gap:10px;width:min(320px,86vw)}
 #gateForm input{width:100%;padding:12px;background:var(--paper);color:var(--ink);border:1px solid var(--line);font:inherit;border-radius:0}
-#gateForm button{padding:12px}
+#gateForm button{padding:12px;background:var(--accent);color:#fff;border:1px solid var(--accent);font:inherit;font-weight:700;cursor:pointer;border-radius:0}
+#gateForm button:disabled{opacity:.6;cursor:default}
 #gMsg{min-height:18px;font-size:12px;color:var(--accent)}
-#viewBanner{background:var(--accent-pale);border-bottom:1px solid var(--line);padding:9px max(22px,calc((100vw - 1180px)/2));display:flex;gap:12px;align-items:center;justify-content:space-between;font-size:13px;font-weight:700}
-#viewBanner .tb-row{margin-left:auto}
-.tb-msg{border:1px solid var(--accent);background:var(--accent-pale);padding:9px 12px;margin:10px 0;font-size:13px}
-.tb-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.tb-row.between{justify-content:space-between}
-.tb-chars{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:10px}
-.tb-char{border:1px solid var(--line);padding:12px;background:var(--ground)}
-.tb-char.me{border-color:var(--accent)}
-.tb-name{font-weight:900;font-size:15px;overflow-wrap:anywhere}
-.tb-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:2px}
-.tb-stats{font-size:12px;color:var(--muted);margin:8px 0 10px;line-height:1.6}
-.tb-log{display:grid;gap:6px;max-height:420px;overflow:auto;margin-top:10px}
-.tb-roll{display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 10px;font-size:12px;padding:8px;border:1px solid var(--line);background:var(--ground)}
-.tb-roll .when{color:var(--muted);grid-row:span 3}
-.tb-roll .roll-dice{margin:4px 0}
-.tb-invite{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.tb-invite input{flex:1;min-width:220px;padding:9px;background:var(--ground);color:var(--ink);border:1px solid var(--line)}
-.tb-members{display:grid;gap:6px;margin-top:10px}
-#toasts{position:fixed;right:14px;bottom:62px;display:grid;gap:8px;z-index:50;max-width:320px}
-.toast{background:var(--paper);border:1px solid var(--accent);padding:10px 12px;font-size:12px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
-/* party side panel */
-#party{position:fixed;top:0;right:0;bottom:0;width:300px;background:var(--paper);border-left:1px solid var(--line);overflow:auto;z-index:40;padding:14px;transform:translateX(105%);transition:transform .18s ease}
-body.party-open #party{transform:none}
-@media (min-width:1100px){body.party-open{padding-right:300px}}
-@media (prefers-reduced-motion:reduce){#party{transition:none}}
-#partyToggle{position:fixed;right:14px;bottom:14px;z-index:41}
-body.party-open #partyToggle{display:none}
-.party-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.pt-list{display:grid;gap:6px}
-.pt-row{display:grid;gap:3px;text-align:left;text-transform:none;letter-spacing:0;padding:9px 10px;font-weight:700;background:var(--ground)}
-.pt-row.on{border-color:var(--accent);background:var(--accent-pale)}
-.pt-name{font-size:13px;overflow-wrap:anywhere}
-.pt-sub{font-size:11px;color:var(--muted);font-weight:400}
-
-</style></head><body class="locked">
-<div id="gate"><form id="gateForm" autocomplete="on"><input id="gUser" name="username" type="text" placeholder="Username" maxlength="24" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"><input id="gCode" name="password" type="password" placeholder="Access code" autocomplete="current-password"><button id="gBtn" class="primary" type="submit">Enter</button><div id="gMsg" role="alert"></div></form></div>
-<header class="top"><div class="brand"><div class="brand-title"><div class="subtitle">Spark Sheet</div></div></div><div class="actions"><span id="userTag" class="save-state"></span><span id="saveState" class="save-state">Saved</span><button id="exportBtn">Export</button><button id="importBtn">Import</button><button id="resetBtn">Reset</button><button id="themeBtn">Light Mode</button><button id="signOutBtn">Sign out</button><input id="importFile" type="file" accept="application/json" hidden></div></header>
-<nav><button class="active" data-tab="character">Character</button><button data-tab="spark">Spark</button><button data-tab="armory">Armory</button><button data-tab="table" id="tableTabBtn">Table</button></nav>
-<div id="viewBanner" hidden></div>
-<main>
-<section id="character" class="tab active"><div class="grid">
- <div class="card s12"><div class="eyebrow">Pilot</div><h2>Character</h2><div class="two"><div class="field"><label>Name</label><input id="pilotName" type="text" placeholder="Pilot name"></div><div class="field"><label>Pronouns</label><input id="pronouns" type="text" placeholder="Pronouns"></div></div><div class="field"><label>Background</label><textarea id="background" placeholder="Where did your pilot come from?"></textarea></div><div class="field"><label>Description</label><textarea id="description" placeholder="What does your pilot look like?"></textarea></div><div class="field"><label>Notes</label><textarea id="notes" placeholder="Character notes, reminders, mission details…"></textarea></div></div>
- <div class="card s12"><div class="eyebrow">Character creation</div><h2>Starting Attributes & Resources</h2><div class="statgrid" id="baseStats"></div><div class="points"><span>Attributes: start at 1 · Spend up to 4 points · Maximum starting value 4</span><b id="attrPoints"></b></div><div class="points"><span>Health and Fuel: start at 2 · Spend up to 8 points</span><b id="resourcePoints"></b></div></div>
- </div></section>
-<section id="spark" class="tab"><div class="grid">
- <div class="card s12"><div class="eyebrow">Frame</div><details class="spark-picker" id="sparkPicker"><summary><span id="currentSpark">PYRE</span><span class="muted">Change Spark ▾</span></summary><div class="spark-drawer"><div id="sparkChoices" class="spark-list"></div></div></details>
- <div class="spark-resource-bar" id="sparkResourceBar"></div>
- <div class="spark-columns"><div class="spark-left">
-  <section class="spark-subsection"><h3 class="spark-section-title">STATS</h3><div id="effectiveStats" class="statgrid"></div><div id="rollResult" class="roll-result" aria-live="polite"></div></section>
-  <section class="spark-subsection"><h3 class="spark-section-title">PASSIVE MOD EFFECTS</h3><div id="passiveBuffs"></div><div id="passivePower"></div></section>
- </div><div class="spark-right"><section><h3 class="spark-section-title">ACTIVE POWERS</h3><div id="activePowers"></div></section><section><h3 class="spark-section-title">SUPERNOVA</h3><div id="superPower"></div></section><section class="spark-subsection" id="thrallSection" hidden><h3 class="spark-section-title">THRALLS</h3><div id="thrallManager"></div></section></div></div>
- </div>
- <div class="card s12"><div class="eyebrow">Frame modifications</div><h2>Persistent Mods</h2><div class="actions" style="margin-bottom:12px"><button id="clearMods">Remove All Mods</button><button class="primary" id="openArmory">Open Armory</button></div><div id="persistentList" class="modlist"></div></div>
- </div></section>
-<section id="armory" class="tab"><div class="card"><div class="eyebrow">Unlocked Flare Mods</div><h2>Armory</h2><div class="catalog-tools"><input id="catalogSearch" type="text" placeholder="Search mods"><select id="catalogClass"><option value="all">All Sparks</option></select><select id="catalogType"><option value="all">All Mods</option><option value="Persistent">Persistent</option><option value="Power">Power</option></select><select id="catalogAvailability"><option value="all">Any availability</option><option value="unlocked">Unlocked</option><option value="locked">Not unlocked</option></select></div><div id="catalogList"></div></div></section>
-<section id="table" class="tab"><div id="tableRoot"></div></section>
-</main>
-<div id="toasts"></div>
-<aside id="party" hidden><div class="party-head"><b>Party</b><button data-act="partyclose" aria-label="Hide">&#10005;</button></div><div id="partyBody"></div></aside>
-<button id="partyToggle" hidden>Party</button>
-<script>
-const DATA={"classes":{"Pyre":{"desc":"Strong single-target damage, complemented by high mobility.","passive":"Slash","passiveText":"Lash out with your solar blade. Deal 1 Harm to a Close enemy at the start of your turn.","powers":[{"name":"Dash","text":"Single out your target and charge them down. Deal 2 Harm to an enemy at Close range, or 3 Harm if you moved before activating Dash."},{"name":"Singe","text":"Cast a fiery arc with your solar blade. Deal 1 Harm to all enemies within Close range."},{"name":"Finisher","text":"Streak across the ground like wildfire, dealing 1 Harm to every injured enemy within Near range of you."},{"name":"Tracer Round","text":"Hurl a flaming spear at a Far enemy, dealing 1 Harm. At the start of the next round, you can instantly teleport next to that enemy."}],"super":{"name":"Firestorm","text":"Choose a single enemy at any range. Move to Close range and deal Harm equal to your Sun + Moon."},"mods":["Fury","Cool","Wellspring","Hardy","Mercury","Honed","Quick-Strike","Retaliate","Finder","Lethal","Efficient","Prepped","Overclock","Sweep","Lit","Phase-Shift","Pinned"]},"Scorch":{"desc":"Set the battlefield on fire while helping the team stay fueled up and ready to fight.","passive":"Controlled Burn","passiveText":"Warp the resources of your enemies. Once per GM turn, you can change a Drop from one type to the other (e.g. Health to Fuel).","powers":[{"name":"Engulf","text":"Your Spark is wreathed in flame. Until the end of your next turn, any Close enemies take 2 Harm."},{"name":"Erupt","text":"Columns of flame burst from the ground. Deal 2 Harm to a target within Near range, and 1 Harm to anyone Close to them."},{"name":"Snuff Out","text":"Focus the sun’s fury on a wounded foe. An injured enemy at any range takes Harm equal to your Shade."},{"name":"Kindling","text":"Fire shards of sun in all directions. Choose a number of targets equal to or less than your Sun, at any range. Enemies take 1 Harm; allies recover 1 Health or Fuel."}],"super":{"name":"Glory & Flame","text":"Two waves blast off of you, one wrathful, one radiant. All damaged enemies immediately take Harm equal to your Sun. Allies recover Health equal to your Shade."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Sun Burst","Light Up","Adaptive","Bountiful","Finder","Lethal","Efficient","Colder","Expel","Wall of Fire","Siphon","Stockpile"]},"Voyager":{"desc":"Seek out and destroy the enemies of the Dusk.","passive":"Marked","passiveText":"At the start of your turn, mark any two enemies. Marks remain until used, but do not stack.","powers":[{"name":"Seek","text":"Choose 1 marked enemy: it takes +1 Harm from all sources until the start of the next round. Remove its mark."},{"name":"Destroy","text":"Each marked enemy takes 2 Harm. Remove marks from targets."},{"name":"HoloSpark","text":"Deploy a Spark decoy at Near range or closer. Marked enemies attack it. The effect ends at the end of the round; affected enemies lose their mark."},{"name":"Swap","text":"Swap places with a marked enemy at Near or Far range. The target loses its mark."}],"super":{"name":"SOS Salvo","text":"Fire a solar shard for each point of Moon. The shards hit at any range and deal 2 Harm each."},"mods":["Cyclical","Cool","Wellspring","Hardy","Sonar","Studied","Stun","Nitro","Finder","Lethal","Efficient","Prepped","Tagged","Lockdown","Splash","Hardlight Holo","Matchmaker"]},"Warden":{"desc":"Protect allies, control enemies, and charge into the fray.","passive":"Unstoppable","passiveText":"While moving, stun 1 enemy at Close range: it cannot act until the end of the round.","powers":[{"name":"Bulwark","text":"You and all allies at Close reduce Harm from enemies by 1 until the end of the round."},{"name":"Rush","text":"Choose a location at Near and rush there. Deal 1 Harm to each enemy in your path. This does not replace your normal movement."},{"name":"Crush & Throw","text":"Crush an enemy at Close, dealing 2 Harm, then throw it to a point at Near. All enemies there take 1 Harm."},{"name":"Over Here","text":"Recover Health equal to your Sun. All enemies at Near must attack you until the start of your next turn."}],"super":{"name":"Earthquake","text":"Choose a number of enemies equal to your Sun: deal 2 Harm to each and stun them until the end of the round."},"mods":["Fury","Cool","Wellspring","Hardy","Defiant","Shockwave","Sweep","Ramming","Finder","Lethal","Efficient","Prepped","Reflective","Courier","Pull Pin","Intimidation"]},"Pox":{"desc":"Spread infection, gradually wearing down your enemies.","passive":"Virulent","passiveText":"At the start of combat, infect 1 enemy. Infected enemies take 1 Harm at the start of your turn.","powers":[{"name":"Infect","text":"Infect 1 enemy at Near range."},{"name":"Spread","text":"Choose an infected enemy at Near: infect all enemies within Close range of it."},{"name":"Symptomatic","text":"Choose one effect for all infected enemies this round: -1 Harm dealt; +1 Harm taken; or unable to move."},{"name":"Fight or Flight","text":"Each infected enemy either immediately deals its Harm to the nearest enemy or flees from you for one round (GM’s choice)."}],"super":{"name":"Patient Zero","text":"All infected enemies take Harm equal to the number of infected enemies. Then remove all infections."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Deadly","Plague Bringer","Vector","Evolved","Finder","Efficient","Prepped","Split Mind","Adrenal","Viral Link","Clouded","Dual Strand"]},"Grim":{"desc":"Raise fallen enemies as Thralls and command them.","passive":"Raise Dead","passiveText":"Once per round, when an enemy dies, you may make it a Thrall. Thralls return with 1 Health and use your Powers. They cannot move without a specific mod. Maximum Thralls equals Shade.","powers":[{"name":"Pull Strings","text":"Command a Thrall to attack an enemy at Close: it deals its Harm."},{"name":"Siphon","text":"Sacrifice a Thrall at Close. It creates Health or Fuel Drops equal to its maximum Health. Any ally may collect them."},{"name":"Possess","text":"Deal 2 Harm to an enemy at Near and give it one command it must obey."},{"name":"Haunt","text":"All Thralls scream piercingly. Enemies at Close to them retreat in fear and cannot act during the GM turn."}],"super":{"name":"Death Curse","text":"Your Thralls explode with a death curse. Each deals 2 Harm to all enemies at Close to it."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Builder","Sewn Sinew","Enthralling","Danse Macabre","Howlers","Finder","Efficient","Prepped","Split Mind","Weaver","Ritualistic","Horrified","Rallying Cry"]},"Drifter":{"desc":"A versatile shooter with an arsenal for every combat scenario.","passive":"Empty Clip","passiveText":"If you have 0 Fuel at the end of your turn, you may activate Supernova. Then gain 3 Fuel.","powers":[{"name":"Fan the Hammer","text":"Choose a number of targets at Close equal to your current Fuel. Each takes 1 Harm."},{"name":"Hip-Fire","text":"Deal Harm equal to your Sun to a target at Near."},{"name":"Duel","text":"Choose an enemy at Near or closer. Deal Harm equal to your Moon. If the enemy survives, you take its Harm."},{"name":"Take Aim","text":"Deal Harm equal to your Shade to one target at Far; or deal 1 Harm to a number of enemies at Far equal to your Shade."}],"super":{"name":"Bullet Hell","text":"Choose a range. Every enemy at that range takes 2 Harm."},"mods":["Fury","Cyclical","Cool","Leak","Hardy","Smaller Tank","Blood Bullets","Mercury","Bullet Storm","Overclock","Solar","Lunar","Twilight","Prepped","Hammer Forged","Explosive","Deadeye","Ricochet"]},"Sanguine":{"desc":"Support your squad and deal devastating damage with your blood blade.","passive":"Blood Born","passiveText":"You may spend 1 Health when using a Power to activate its Blood effect.","powers":[{"name":"Transfusion","text":"Choose two targets Close to each other. Transfer 1 Health from one to the other. Blood effect: Transfer Health equal to your Sun."},{"name":"Siphon","text":"Deal 1 Harm to one enemy at Close and gain 1 Health. Blood effect: Affects all Close enemies."},{"name":"Blood Blade","text":"Lose 1 Health and deal 1 Harm to every enemy at Close. Blood effect: Deal Harm equal to your Shade."},{"name":"Cauldron","text":"Become a swarm of bats and move to any location within Far range. Deal 1 Harm to all Close enemies at that location. Blood effect: Deal Harm equal to your Moon."}],"super":{"name":"Undead","text":"You lock down, surrounding yourself with a steel coffin. No effect on death. You resurrect at the start of the next round without requiring aid from an ally. Activate Siphon when you do. Doing this uses your action, and you may only Move on your turn."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Hearty","Leech","Reborn","Mobile Grave","Finder","Lethal","Efficient","Prepped","Blood Soaked","Donor","Refreshing","Honed Blood","War Path"]},"Infernal":{"desc":"Lock down the battlefield, condemning the denizens of the Dusk.","passive":"Damnation","passiveText":"Enemies affected by your Powers are Damned. Damned enemies deal +1 Harm the next time they attack a Spark, and then inflict double that Harm on themselves. Damned is removed after.","powers":[{"name":"Hellfire","text":"Ignite an enemy’s soul with a touch. Deal 3 Harm to an enemy within Close range. If they die from Hellfire, they explode and deal 1 Harm to all enemies within Close range to them."},{"name":"Brimstone","text":"Rock and ash burst from a tear in the ground. Deal 1 Harm to an enemy within Near range, and all enemies within Close range to your target. All damaged enemies can only attack at Close range until the end of the round."},{"name":"Banish","text":"Cast your enemy to a realm of fire and pain, momentarily. One enemy within Close range disappears from the battle. They return at the end of your next turn."},{"name":"Sinner's Snare","text":"Bind the bodies of your closest foes, and damn their souls. Target a number of enemies equal to Moon; they cannot act this round."}],"super":{"name":"Final Judgement","text":"All enemies within Close range are dragged down to Hell and killed."},"mods":["Fury","Cyclical","Cool","Wellspring","Hardy","Eternal","Dance with the Devil","Fine Print","Toll","Finder","Lethal","Efficient","Split Mind","White Hot","Fissure","Rift Tear","Bind Them"]}},"mods":[{"id":"Fury","name":"Fury","availability":{"Pyre":{"max":2,"target":null,"type":"Persistent","effect":"+1 Sun"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Warden":{"max":2,"target":null,"type":"Persistent","effect":"+1 Sun"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Sun"}}},{"id":"Cool","name":"Cool","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Voyager":{"max":2,"target":null,"type":"Persistent","effect":"+1 Shade"},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Shade"}}},{"id":"Wellspring","name":"Wellspring","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Scorch":{"max":2,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Pox":{"max":2,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Fuel"}}},{"id":"Hardy","name":"Hardy","availability":{"Pyre":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Warden":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health"},"Sanguine":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"},"Infernal":{"max":2,"target":null,"type":"Persistent","effect":"+1 Health"}}},{"id":"Mercury","name":"Mercury","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Move twice per turn."},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Move twice per turn."}}},{"id":"Honed","name":"Honed","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"+1 Harm to Slash."}}},{"id":"Quick-Strike","name":"Quick-Strike","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Slash can target two enemies."}}},{"id":"Retaliate","name":"Retaliate","availability":{"Pyre":{"max":1,"target":null,"type":"Persistent","effect":"Slash activates every time you take Harm, as well as at the start of your turn."}}},{"id":"Finder","name":"Finder","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Scorch":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Voyager":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Warden":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Pox":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Grim":{"max":2,"target":null,"type":"Power","effect":"+1 Range"},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"+1 Range"},"Infernal":{"max":1,"target":null,"type":"Power","effect":"+1 Range"}}},{"id":"Lethal","name":"Lethal","availability":{"Pyre":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Scorch":{"max":3,"target":null,"type":"Power","effect":"+1 Harm"},"Voyager":{"max":1,"target":null,"type":"Power","effect":"+1 Harm"},"Warden":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Sanguine":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"},"Infernal":{"max":2,"target":null,"type":"Power","effect":"+1 Harm"}}},{"id":"Efficient","name":"Efficient","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Scorch":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Voyager":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Warden":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Pox":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Grim":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."},"Infernal":{"max":1,"target":null,"type":"Power","effect":"Costs no Fuel."}}},{"id":"Prepped","name":"Prepped","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Voyager":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Warden":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Pox":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Grim":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Drifter":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."},"Sanguine":{"max":1,"target":null,"type":"Power","effect":"The first time this Power is used in combat, it does not count as an action."}}},{"id":"Overclock","name":"Overclock","availability":{"Pyre":{"max":1,"target":null,"type":"Power","effect":"Spend 1 extra Fuel to double the Harm."},"Drifter":{"max":2,"target":null,"type":"Power","effect":"Spend 1 extra Fuel to double the Harm."}}},{"id":"Sweep","name":"Sweep","availability":{"Pyre":{"max":1,"target":"Dash","type":"Power","effect":"Dash affects all enemies Close to the target as well."},"Warden":{"max":1,"target":null,"type":"Persistent","effect":"If you have not moved, all Close enemies cannot act this round."}}},{"id":"Lit","name":"Lit","availability":{"Pyre":{"max":1,"target":"Singe","type":"Power","effect":"Enemies hit by Singe take 1 Harm if they act that round."}}},{"id":"Phase-Shift","name":"Phase-Shift","availability":{"Pyre":{"max":1,"target":"Finisher","type":"Power","effect":"Harm for Finisher equals Moon instead of 1."}}},{"id":"Pinned","name":"Pinned","availability":{"Pyre":{"max":1,"target":"Tracer Round","type":"Power","effect":"Target of Tracer Round cannot act this round."}}},{"id":"Cyclical","name":"Cyclical","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Voyager":{"max":2,"target":null,"type":"Persistent","effect":"+1 Moon"},"Pox":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"},"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"+1 Moon"}}},{"id":"Sun Burst","name":"Sun Burst","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"You may have 1 Drop each round explode, dealing 2 Harm to all Close enemies."}}},{"id":"Light Up","name":"Light Up","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"You can change 2 Drops per GM turn instead of 1."}}},{"id":"Adaptive","name":"Adaptive","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"Any Drop you pick up can be treated as Health or Fuel."}}},{"id":"Bountiful","name":"Bountiful","availability":{"Scorch":{"max":1,"target":null,"type":"Persistent","effect":"Enemies you kill create 2 Drops during the GM turn."}}},{"id":"Colder","name":"Colder","availability":{"Scorch":{"max":1,"target":null,"type":"Power","effect":"You may use any Attribute in place of another."}}},{"id":"Expel","name":"Expel","availability":{"Scorch":{"max":1,"target":"Engulf","type":"Power","effect":"When Engulf ends, it explodes outward, dealing 1 Harm to every enemy up to Near."}}},{"id":"Wall of Fire","name":"Wall of Fire","availability":{"Scorch":{"max":1,"target":"Erupt","type":"Power","effect":"Erupt’s column remains in place for a number of rounds equal to Moon. Deals 1 Harm to anyone that gets Close to it."}}},{"id":"Siphon","name":"Siphon","availability":{"Scorch":{"max":1,"target":"Snuff Out","type":"Power","effect":"If Snuff Out’s target dies, you regain 1 Fuel."}}},{"id":"Stockpile","name":"Stockpile","availability":{"Scorch":{"max":1,"target":"Kindling","type":"Power","effect":"The number of Kindling targets equals your current Fuel."}}},{"id":"Sonar","name":"Sonar","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"You may mark three enemies instead of two."}}},{"id":"Studied","name":"Studied","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"Marked enemies deal 1 less Harm to you."}}},{"id":"Stun","name":"Stun","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"At the start of your turn, choose 1 marked enemy: it cannot act this round."}}},{"id":"Nitro","name":"Nitro","availability":{"Voyager":{"max":1,"target":null,"type":"Persistent","effect":"You may take one additional non-Power action per turn."}}},{"id":"Tagged","name":"Tagged","availability":{"Voyager":{"max":2,"target":null,"type":"Power","effect":"This Power does not use a target mark."}}},{"id":"Lockdown","name":"Lockdown","availability":{"Voyager":{"max":1,"target":"Seek","type":"Power","effect":"Target of Seek cannot act this round."}}},{"id":"Splash","name":"Splash","availability":{"Voyager":{"max":1,"target":"Destroy","type":"Power","effect":"Enemies within Close of Destroy targets take 1 Harm."}}},{"id":"Hardlight Holo","name":"Hardlight Holo","availability":{"Voyager":{"max":1,"target":"HoloSpark","type":"Power","effect":"HoloSpark explodes at the end of the round, dealing 1 Harm to all Close enemies and marking them."}}},{"id":"Matchmaker","name":"Matchmaker","availability":{"Voyager":{"max":1,"target":"Swap","type":"Power","effect":"You may swap the target with an ally instead of yourself."}}},{"id":"Defiant","name":"Defiant","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Recover 1 Health at the start of your turn."}}},{"id":"Shockwave","name":"Shockwave","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Unstoppable stuns 2 enemies total."}}},{"id":"Ramming","name":"Ramming","availability":{"Warden":{"max":1,"target":null,"type":"Persistent","effect":"Enemies affected by Unstoppable take 2 Harm total."}}},{"id":"Reflective","name":"Reflective","availability":{"Warden":{"max":1,"target":"Bulwark","type":"Power","effect":"Deal 1 Harm to enemies that attack allies protected by Bulwark."}}},{"id":"Courier","name":"Courier","availability":{"Warden":{"max":1,"target":"Bulwark","type":"Power","effect":"You may bring an ally at Close with you when using Bulwark."}}},{"id":"Pull Pin","name":"Pull Pin","availability":{"Warden":{"max":1,"target":"Crush & Throw","type":"Power","effect":"Enemies killed by Crush & Throw explode on impact, dealing 3 Harm total to enemies at the landing point."}}},{"id":"Intimidation","name":"Intimidation","availability":{"Warden":{"max":1,"target":"Over Here","type":"Power","effect":"When using Over Here, normal enemies may flee instead of attacking. Does not affect Elite enemies."}}},{"id":"Deadly","name":"Deadly","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Virulent deals 2 Harm total to infected enemies."}}},{"id":"Plague Bringer","name":"Plague Bringer","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Virulent infects 3 enemies instead of one."}}},{"id":"Vector","name":"Vector","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Once per round, infect an enemy at Close range."}}},{"id":"Evolved","name":"Evolved","availability":{"Pox":{"max":1,"target":null,"type":"Persistent","effect":"Choose one Symptomatic effect: it is permanently active on all infected enemies. It cannot be chosen when using Symptomatic."}}},{"id":"Split Mind","name":"Split Mind","availability":{"Pox":{"max":2,"target":null,"type":"Power","effect":"+1 target"},"Grim":{"max":2,"target":null,"type":"Power","effect":"+1 target"},"Infernal":{"max":2,"target":null,"type":"Power","effect":"+1 target"}}},{"id":"Adrenal","name":"Adrenal","availability":{"Pox":{"max":1,"target":"Infect","type":"Power","effect":"The infected target immediately suffers the effect of Fight or Flight."}}},{"id":"Viral Link","name":"Viral Link","availability":{"Pox":{"max":1,"target":"Spread","type":"Power","effect":"Spread’s target takes Harm equal to the number of newly infected enemies."}}},{"id":"Clouded","name":"Clouded","availability":{"Pox":{"max":1,"target":"Symptomatic","type":"Power","effect":"New Symptomatic effect: enemies can only deal Harm at Close range."}}},{"id":"Dual Strand","name":"Dual Strand","availability":{"Pox":{"max":1,"target":"Fight or Flight","type":"Power","effect":"Enemies suffer both effects of Fight or Flight."}}},{"id":"Builder","name":"Builder","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"+1 Health to Thralls."}}},{"id":"Sewn Sinew","name":"Sewn Sinew","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"Thralls return with Health equal to Sun, up to their maximum."}}},{"id":"Enthralling","name":"Enthralling","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"You may create a Thrall every time an enemy dies, not just once per round."}}},{"id":"Danse Macabre","name":"Danse Macabre","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"One Thrall may move during your turn."}}},{"id":"Howlers","name":"Howlers","availability":{"Grim":{"max":1,"target":null,"type":"Persistent","effect":"When a Thrall dies for any reason, it activates Haunt at its location."}}},{"id":"Weaver","name":"Weaver","availability":{"Grim":{"max":1,"target":"Pull Strings","type":"Power","effect":"A number of Thralls equal to or less than Shade may act using Pull Strings."}}},{"id":"Ritualistic","name":"Ritualistic","availability":{"Grim":{"max":1,"target":"Siphon","type":"Power","effect":"Thralls sacrificed with Siphon curse enemies at Close: +1 Harm taken or -1 Harm dealt until your next turn (your choice)."}}},{"id":"Horrified","name":"Horrified","availability":{"Grim":{"max":1,"target":"Possess","type":"Power","effect":"All enemies Close to the target of Possess take 1 Harm and cannot move this round."}}},{"id":"Rallying Cry","name":"Rallying Cry","availability":{"Grim":{"max":1,"target":"Haunt","type":"Power","effect":"One ally Close to Haunted Thralls may take another turn this round."}}},{"id":"Leak","name":"Leak","availability":{"Drifter":{"max":2,"target":null,"type":"Persistent","effect":"-1 Fuel"}}},{"id":"Smaller Tank","name":"Smaller Tank","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Gain 2 Fuel from Empty Clip."}}},{"id":"Blood Bullets","name":"Blood Bullets","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"You may treat Fuel Drops as Health Drops."}}},{"id":"Bullet Storm","name":"Bullet Storm","availability":{"Drifter":{"max":1,"target":null,"type":"Persistent","effect":"Supernova deals 4 Harm instead of 2."}}},{"id":"Solar","name":"Solar","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Sun instead."}}},{"id":"Lunar","name":"Lunar","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Moon instead."}}},{"id":"Twilight","name":"Twilight","availability":{"Drifter":{"max":1,"target":null,"type":"Power","effect":"Uses Shade instead."}}},{"id":"Hammer Forged","name":"Hammer Forged","availability":{"Drifter":{"max":1,"target":"Fan the Hammer","type":"Power","effect":"Fan the Hammer Harm equals your current Fuel count."}}},{"id":"Explosive","name":"Explosive","availability":{"Drifter":{"max":1,"target":"Hip-Fire","type":"Power","effect":"Hip-Fire deals Harm to all enemies Close to the target as well."}}},{"id":"Deadeye","name":"Deadeye","availability":{"Drifter":{"max":1,"target":"Duel","type":"Power","effect":"Once per round, if you kill the target with Duel, you may immediately Duel again at no cost."}}},{"id":"Ricochet","name":"Ricochet","availability":{"Drifter":{"max":1,"target":"Take Aim","type":"Power","effect":"If the single target of Take Aim dies, deal Harm equal to your Shade to an enemy within Close range of the target."}}},{"id":"Hearty","name":"Hearty","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Recover 2 Health from Drops."}}},{"id":"Leech","name":"Leech","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Fuel Drops also provide 1 Health."}}},{"id":"Reborn","name":"Reborn","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"Gain the Blood effect from Siphon with your Supernova."}}},{"id":"Mobile Grave","name":"Mobile Grave","availability":{"Sanguine":{"max":1,"target":null,"type":"Persistent","effect":"You may resurrect anywhere within Near of where you died."}}},{"id":"Blood Soaked","name":"Blood Soaked","availability":{"Sanguine":{"max":1,"target":null,"type":"Power","effect":"Gain Blood effect at no Health cost."}}},{"id":"Donor","name":"Donor","availability":{"Sanguine":{"max":1,"target":"Transfusion","type":"Power","effect":"You and allies gain double Health from Transfusion."}}},{"id":"Refreshing","name":"Refreshing","availability":{"Sanguine":{"max":1,"target":"Siphon","type":"Power","effect":"If you kill with Siphon, you may immediately activate another Power. You must still pay the Fuel to do so."}}},{"id":"Honed Blood","name":"Honed Blood","availability":{"Sanguine":{"max":1,"target":"Blood Blade","type":"Power","effect":"Lose any number of Health to deal that number of Harm with Blood Blade."}}},{"id":"War Path","name":"War Path","availability":{"Sanguine":{"max":1,"target":"Cauldron","type":"Power","effect":"Cauldron deals 1 Harm to all enemies in the movement path."}}},{"id":"Eternal","name":"Eternal","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damnation is not removed after enemies deal Harm. The Damnation effect does not stack if they are affected by another Power."}}},{"id":"Dance with the Devil","name":"Dance with the Devil","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies take 1 Harm whenever they are Close to you."}}},{"id":"Fine Print","name":"Fine Print","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies cannot deal Harm to you."}}},{"id":"Toll","name":"Toll","availability":{"Infernal":{"max":1,"target":null,"type":"Persistent","effect":"Damned enemies are affected by Final Judgement at any range."}}},{"id":"White Hot","name":"White Hot","availability":{"Infernal":{"max":1,"target":"Hellfire","type":"Power","effect":"Explosion Harm for Hellfire equals your Sun."}}},{"id":"Fissure","name":"Fissure","availability":{"Infernal":{"max":1,"target":"Brimstone","type":"Power","effect":"Brimstone now affects a line between you and a Far location."}}},{"id":"Rift Tear","name":"Rift Tear","availability":{"Infernal":{"max":1,"target":"Banish","type":"Power","effect":"When Banish’s target returns, they deal Harm equal to your Shade to all enemies Close to their location."}}},{"id":"Bind Them","name":"Bind Them","availability":{"Infernal":{"max":1,"target":"Sinner's Snare","type":"Power","effect":"Damned enemies affected by Sinner’s Snare take 1 additional Harm."}}}]};
-const CLASSES=DATA.classes, MODS=Object.fromEntries(DATA.mods.map(m=>[m.id,m]));
-const STORE='nova-spark-sheet-v3';
-let state={pilotName:'',pronouns:'',background:'',description:'',notes:'',base:{Sun:1,Moon:1,Shade:1,Health:2,Fuel:2},spark:'Pyre',inventory:{},installed:[],assignments:{},currentResources:{},thralls:{}};
-const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const attrs=['Sun','Moon','Shade'],resources=['Health','Fuel'];
-const DB_NAME='nova-spark-builder';const DB_STORE='characters';
-function openSaveDB(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window))return reject(Error('IndexedDB unavailable'));let req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(DB_STORE))req.result.createObjectStore(DB_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
-function persistDB(snapshot){openSaveDB().then(db=>{let tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(snapshot,'active-character');tx.oncomplete=()=>db.close();tx.onerror=()=>db.close()}).catch(()=>{});}
-function save(){let snapshot=JSON.parse(JSON.stringify(state));try{localStorage.setItem(STORE,JSON.stringify(snapshot));localStorage.setItem('nova-spark-sheet-latest',JSON.stringify(snapshot));$('saveState').textContent='Saved to this browser'}catch(e){$('saveState').textContent='Saving to browser database…'}persistDB(snapshot)}
-function normalizeState(v){state={...state,...v};let migrated={};for(let [k,n] of Object.entries(state.inventory||{})){let id=k.includes('::')?k.split('::').slice(1).join('::'):k;migrated[id]=Math.max(migrated[id]||0,Number(n||0))}state.inventory=migrated;state.currentResources??={};state.thralls??={};}
-function load(){try{let v=JSON.parse(localStorage.getItem(STORE)||localStorage.getItem('nova-spark-sheet-latest')||localStorage.getItem('nova-spark-sheet-v2'));if(v&&v.base&&v.inventory)normalizeState(v)}catch(e){}}
-async function restoreBrowserSave(){try{if(localStorage.getItem(STORE)||localStorage.getItem('nova-spark-sheet-latest')||localStorage.getItem('nova-spark-sheet-v2'))return;let db=await openSaveDB(),tx=db.transaction(DB_STORE,'readonly'),req=tx.objectStore(DB_STORE).get('active-character');req.onsuccess=()=>{let v=req.result;db.close();if(v&&v.base&&v.inventory){normalizeState(v);render();$('saveState').textContent='Restored from browser database'}};req.onerror=()=>db.close()}catch(e){}}
-function clearBrowserSave(){try{openSaveDB().then(db=>{let tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).delete('active-character');tx.oncomplete=()=>db.close()}).catch(()=>{})}catch(e){}}
-function invKey(cls,id){return id}function owned(cls,id){return state.inventory[id]||0}function maxCopies(cls,id){return Math.max(0,...Object.values(MODS[id]?.availability||{}).map(x=>x.max||0))}function modType(id,cls=state.spark){return MODS[id].availability[cls].type}function modEffect(id,cls=state.spark){return MODS[id].availability[cls].effect}function installedCount(cls,id){return state.installed.filter(x=>x.cls===cls&&x.id===id).length}function isInstalled(cls,id){return installedCount(cls,id)>0}
-function powers(cls=state.spark){let c=CLASSES[cls];return [...c.powers.map(x=>x.name),c.super.name]}
-function targetFor(cls,id){let av=MODS[id].availability[cls];return av.target||state.assignments[invKey(cls,id)]||powers(cls)[0]}
-function setTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id===t));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));if(t==='armory')renderArmory()}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));$('openArmory').onclick=()=>setTab('armory');
-function formatTerms(value){let raw=String(value??''),re=/Blood effect:|\b(?:Sun|Moon|Shade|Health|Fuel|Harm|Drop|Drops|Supernova|Thrall|Thralls|Power|Powers|GM turn|round|turn|Close|Near|Far|Any range|Beyond)\b|\d+/gi,out='',last=0;for(const m of raw.matchAll(re)){out+=esc(raw.slice(last,m.index))+`<strong>${esc(m[0])}</strong>`;last=m.index+m[0].length}return out+esc(raw.slice(last))}
-function randomD6(){if(globalThis.crypto?.getRandomValues){const a=new Uint32Array(1),limit=Math.floor(0x100000000/6)*6;do{crypto.getRandomValues(a)}while(a[0]>=limit);return (a[0]%6)+1}return 1+Math.floor(Math.random()*6)}
-function rollStat(stat,count){const rolls=Array.from({length:Math.max(1,Number(count)||1)},()=>randomD6()),best=Math.max(...rolls),kept=rolls.indexOf(best),out=best<=2?'FAILURE — with a consequence':best<=4?'SUCCESS — with a consequence':'TOTAL SUCCESS — full effect with no consequence';$('rollResult').innerHTML=`<strong>${stat} · ${rolls.length}d6kh1</strong><div class="roll-dice">${rolls.map((n,i)=>`<span class="die ${i===kept?'kept':''}">${n}</span>`).join('')}</div><b>${out}</b>`;if(typeof onRoll==='function')onRoll(stat,rolls,kept,out)}
-function renderBase(){for(let id of ['pilotName','pronouns','background','description','notes'])$(id).value=state[id]||'';
- $('baseStats').innerHTML=[...attrs,...resources].map(n=>`<div class="stat"><strong>${n}</strong><div class="num">${state.base[n]}</div><div class="step"><button data-stat="${n}" data-d="-1">−</button><b>${state.base[n]}</b><button data-stat="${n}" data-d="1">+</button></div></div>`).join('');
- $('attrPoints').textContent=`${attrs.reduce((s,n)=>s+state.base[n]-1,0)} / 4`; $('resourcePoints').textContent=`${resources.reduce((s,n)=>s+state.base[n]-2,0)} / 8`;
- document.querySelectorAll('[data-stat]').forEach(b=>b.onclick=()=>{let n=b.dataset.stat,d=+b.dataset.d,v=state.base[n]+d;if(attrs.includes(n)){let used=attrs.reduce((s,a)=>s+state.base[a]-1,0);if(v<1||v>4||(d>0&&used>=4))return}else{let used=resources.reduce((s,a)=>s+state.base[a]-2,0);if(v<2||(d>0&&used>=8))return}state.base[n]=v;save();render()});}
-function renderChoices(){document.body.className=document.body.classList.contains('light')?'light':'';document.body.classList.add('spark-'+state.spark.toLowerCase());$('currentSpark').textContent=state.spark.toUpperCase();$('sparkChoices').innerHTML=Object.entries(CLASSES).map(([n,c])=>`<button class="spark-choice ${state.spark===n?'selected':''}" data-spark="${n}"><b>${n}</b><small>${esc(c.desc)}</small></button>`).join('');document.querySelectorAll('[data-spark]').forEach(b=>b.onclick=()=>{state.spark=b.dataset.spark;$('sparkPicker').open=false;save();render()})}
-function ensureSparkTrackers(cls=state.spark){let e=effective(cls);state.currentResources??={};state.currentResources[cls]??={Health:e.vals.Health,Fuel:e.vals.Fuel};for(let k of ['Health','Fuel'])state.currentResources[cls][k]=Math.max(0,Math.min(e.vals[k],Number(state.currentResources[cls][k]??e.vals[k])));state.thralls??={};state.thralls[cls]??=[]}
-function buyMod(id){let max=maxCopies(state.spark,id);if(owned(state.spark,id)>=max)return;state.inventory[id]=owned(state.spark,id)+1;save();render()}
-function install(id,targetOverride=null){let cls=state.spark,m=MODS[id],av=m?.availability[cls],type=av?.type;if(!av||owned(cls,id)<=installedCount(cls,id)||installedCount(cls,id)>=av.max)return;let target=type==='Power'?(av.target||targetOverride||targetFor(cls,id)):null;if(type==='Power'){let n=state.installed.filter(x=>x.cls===cls&&modType(x.id,cls)==='Power'&&x.target===target).length;if(n>=2){alert('A Power can hold no more than two Power Mods.');return}state.installed.push({cls,id,target})}else state.installed.push({cls,id});save();render()}
-function removeMod(id){let i=state.installed.findIndex(x=>x.cls===state.spark&&x.id===id);if(i>=0)state.installed.splice(i,1);save();render()}
-function modCard(id){let m=MODS[id],cls=state.spark,ownedN=owned(cls,id),n=installedCount(cls,id),av=m.availability[cls],type=av.type,effect=av.effect,target=type==='Power'?targetFor(cls,id):'',targetLock=av.target;let powerCount=target?state.installed.filter(x=>x.cls===cls&&modType(x.id,cls)==='Power'&&x.target===target).length:0;let select=type==='Power'&&!targetLock?`<div class="target"><label>Apply to Power</label><select data-target="${esc(id)}">${powers().map(p=>`<option ${target===p?'selected':''}>${esc(p)}</option>`).join('')}</select></div>`:targetLock?`<div class="avail">Power: ${esc(targetLock)}</div>`:'';return `<article class="spark-mod-card"><h4>${esc(m.name)} <span class="tag ${type.toLowerCase()}">${type}</span></h4><p>${formatTerms(effect)}</p>${select}<div class="avail">Unlocked: ${ownedN} · Available: ${Math.max(0,Math.min(ownedN,av.max)-n)}${type==='Power'?` · ${powerCount}/2 on ${esc(target)}`:''}</div><div class="mod-actions">${ownedN<maxCopies(cls,id)?`<button class="buy" data-buy="${esc(id)}">+ Unlock</button>`:''}${state.installed.some(x=>x.cls===cls&&x.id===id)?`<button data-remove="${esc(id)}">Remove</button>`:''}${ownedN>n&&n<av.max?`<button class="primary" data-install="${esc(id)}">Install</button>`:''}</div></article>`}
-function renderMods(){let cls=state.spark,ids=CLASSES[cls].mods;let pers=ids.filter(id=>modType(id,cls)==='Persistent');$('persistentList').innerHTML=pers.map(modCard).join('')||'<p class="muted small">No Persistent Mods available.</p>';document.querySelectorAll('#persistentList [data-buy]').forEach(b=>b.onclick=()=>buyMod(b.dataset.buy));document.querySelectorAll('#persistentList [data-install]').forEach(b=>b.onclick=()=>install(b.dataset.install));document.querySelectorAll('#persistentList [data-remove]').forEach(b=>b.onclick=()=>removeMod(b.dataset.remove));document.querySelectorAll('[data-target]').forEach(s=>s.onchange=()=>{state.assignments[invKey(state.spark,s.dataset.target)]=s.value;save();render()})}
-function effective(){let vals={...state.base},buffs=[];for(let x of state.installed.filter(x=>x.cls===state.spark)){let m=MODS[x.id];if(modType(x.id,x.cls)!=='Persistent')continue;let effect=modEffect(x.id,x.cls),hit=effect.match(/^([+-])(\d+) (Sun|Moon|Shade|Health|Fuel)$/);if(hit){vals[hit[3]]+=(hit[1]==='+'?1:-1)*Number(hit[2])}else buffs.push(`${m.name}: ${effect}`)}return {vals,buffs}}
-function renderEffective(){let e=effective();ensureSparkTrackers();const statWords={Sun:['Powerful','Destructive','Resolute'],Moon:['Quick','Reactive','Nimble'],Shade:['Practiced','Patient','Methodical']};$('effectiveStats').innerHTML=Object.entries(e.vals).filter(([n])=>attrs.includes(n)).map(([n,v])=>`<button class="stat stat-roll" data-roll="${n}"><strong>${n}</strong><div class="num">${v}</div><span class="stat-words">${(statWords[n]||[]).map(w=>`<span>${w}</span>`).join('')}</span></button>`).join('');document.querySelectorAll('[data-roll]').forEach(b=>b.onclick=()=>rollStat(b.dataset.roll,e.vals[b.dataset.roll]));$('passiveBuffs').innerHTML=e.buffs.length?e.buffs.map(x=>`<div class="passive-buff">${formatTerms(x)}</div>`).join(''):'<span class="muted small">No non-stat Persistent Mod effects.</span>';let cur=state.currentResources[state.spark];$('sparkResourceBar').innerHTML=['Health','Fuel'].map(k=>`<div class="resource-track"><strong>${k}</strong><div class="current">${cur[k]} <span class="muted">/ ${e.vals[k]}</span></div><div class="step"><button data-resource="${k}" data-d="-1">−</button><button data-resource="${k}" data-d="1">+</button></div></div>`).join('');document.querySelectorAll('[data-resource]').forEach(b=>b.onclick=()=>{let k=b.dataset.resource,d=+b.dataset.d;state.currentResources[state.spark][k]=Math.max(0,Math.min(e.vals[k],state.currentResources[state.spark][k]+d));save();renderEffective()})}
-function removePowerMod(id,target){let i=state.installed.findIndex(x=>x.cls===state.spark&&x.id===id&&x.target===target);if(i>=0){state.installed.splice(i,1);save();render()}}
-function renderPowers(){let c=CLASSES[state.spark];const openMenus=new Set([...document.querySelectorAll('#spark .power-mods details[open]')].map(d=>d.dataset.powerMenu));let all=[{name:c.passive,text:c.passiveText,type:'Passive'},...c.powers.map(x=>({...x,type:'Power'})),{...c.super,type:'Supernova'}];const persistent=state.installed.filter(x=>x.cls===state.spark&&modType(x.id,x.cls)==='Persistent');function persistentFor(p){return persistent.filter(x=>{if(state.spark==='Scorch'&&p.type==='Passive'&&['Sun Burst','Light Up','Adaptive','Bountiful'].includes(x.id))return true;const effect=modEffect(x.id,state.spark).toLowerCase();if(effect.includes(p.name.toLowerCase()))return true;if(p.type==='Supernova'&&effect.includes('supernova'))return true;if(p.type==='Passive'&&(effect.includes('thrall')||effect.includes('infect')||effect.includes('damnation')||effect.includes('unstoppable')))return true;return false})}
- function ability(p){let isPower=p.type==='Power',ids=isPower?c.mods.filter(id=>MODS[id].availability[state.spark]?.type==='Power'&&(MODS[id].availability[state.spark].target===p.name||!MODS[id].availability[state.spark].target)):[];let installed=state.installed.filter(x=>x.cls===state.spark&&modType(x.id,x.cls)==='Power'&&x.target===p.name);let additions=[...persistentFor(p).map(x=>`${MODS[x.id].name}: ${modEffect(x.id,state.spark)}`),...installed.map(x=>`${MODS[x.id].name}: ${modEffect(x.id,state.spark)}`)];let text=`<span>${formatTerms(p.text)}</span>`+(additions.length?additions.map(t=>`<span class="ability-upgrade">${formatTerms(t)}</span>`).join(''):'');let cards=ids.map(id=>{let av=MODS[id].availability[state.spark],n=installedCount(state.spark,id),unlocked=owned(state.spark,id),can=unlocked>n&&n<av.max,locked=av.target&&av.target!==p.name;if(locked)return '';return `<div class="mod"><div><h4>${esc(MODS[id].name)}</h4><p>${formatTerms(av.effect)}</p><div class="avail">Unlocked: ${unlocked} · Available: ${Math.max(0,Math.min(unlocked,av.max)-n)}</div></div><div class="mod-actions">${state.installed.some(x=>x.cls===state.spark&&x.id===id&&x.target===p.name)?`<button data-remove="${esc(id)}" data-remove-target="${esc(p.name)}">Remove</button>`:''}${unlocked<maxCopies(state.spark,id)?`<button class="buy" data-buy="${esc(id)}">+ Unlock</button>`:''}<button class="primary" data-install="${esc(id)}" data-target-power="${esc(p.name)}" ${!can||installed.length>=2?'disabled':''}>Install</button></div></div>`}).join('');return `<article class="powerbox ${p.type.toLowerCase()}"><h4>${esc(p.name)}</h4><div class="ability-text">${text}</div>${cards?`<div class="power-mods"><details data-power-menu="${esc(p.name)}"><summary>Upgrade options (${ids.length})</summary>${cards}</details></div>`:''}</article>`}
- $('passivePower').innerHTML=ability(all[0]);$('activePowers').innerHTML=all.filter(p=>p.type==='Power').map(ability).join('');$('superPower').innerHTML=ability(all[all.length-1]);document.querySelectorAll('#spark .power-mods details').forEach(d=>{if(openMenus.has(d.dataset.powerMenu))d.open=true});document.querySelectorAll('#spark [data-buy]').forEach(b=>b.onclick=()=>buyMod(b.dataset.buy));document.querySelectorAll('#spark [data-install]').forEach(b=>b.onclick=()=>install(b.dataset.install,b.dataset.targetPower||null));document.querySelectorAll('#spark [data-remove]').forEach(b=>b.onclick=()=>removePowerMod(b.dataset.remove,b.dataset.removeTarget));renderThralls()}
-function renderThralls(){let show=state.spark==='Grim';$('thrallSection').hidden=!show;if(!show)return;let list=state.thralls.Grim||[],mods=state.installed.filter(x=>x.cls==='Grim'&&modType(x.id,'Grim')==='Persistent').map(x=>x.id),builder=mods.includes('Builder'),sewn=mods.includes('Sewn Sinew'),enthralling=mods.includes('Enthralling'),danse=mods.includes('Danse Macabre'),howlers=mods.includes('Howlers'),sun=effective('Grim').vals.Sun,maxHP=(sewn?sun:1)+(builder?1:0),returnHP=maxHP;list.forEach(t=>t.hp=Math.min(maxHP,Math.max(0,Number(t.hp)||0)));$('thrallManager').innerHTML=`<div class="thrall-toolbar"><button class="primary" id="addThrall">+ Add Thrall</button><span class="muted small">Maximum Thralls: ${effective().vals.Shade} · Current: ${list.length}</span></div><div class="thrall-list">${list.map((t,i)=>`<article class="thrall"><div class="thrall-head"><input type="text" data-thrall-name="${i}" value="${esc(t.name||`Thrall ${i+1}`)}"><button data-thrall-remove="${i}">Remove</button></div><div class="thrall-meta">Health: ${t.hp}/${maxHP}${t.moved?' · Moved this turn':''}${howlers?' · Death triggers Haunt':''}</div><div class="step"><button data-thrall-hp="${i}" data-d="-1">−</button><b>${t.hp}</b><button data-thrall-hp="${i}" data-d="1">+</button><button data-thrall-move="${i}">${t.moved?'Reset move':'Mark moved'}</button></div></article>`).join('')||'<span class="muted small">No Thralls yet.</span>'}</div>`;$('addThrall').onclick=()=>{if(list.length>=effective().vals.Shade)return;list.push({name:`Thrall ${list.length+1}`,hp:returnHP,moved:false});save();renderThralls()};document.querySelectorAll('[data-thrall-name]').forEach(el=>el.onchange=()=>{list[+el.dataset.thrallName].name=el.value;save()});document.querySelectorAll('[data-thrall-hp]').forEach(b=>b.onclick=()=>{let t=list[+b.dataset.thrallHp];t.hp=Math.max(0,Math.min(maxHP,t.hp+(+b.dataset.d)));save();renderThralls()});document.querySelectorAll('[data-thrall-remove]').forEach(b=>b.onclick=()=>{list.splice(+b.dataset.thrallRemove,1);save();renderThralls()});document.querySelectorAll('[data-thrall-move]').forEach(b=>b.onclick=()=>{let t=list[+b.dataset.thrallMove];t.moved=!t.moved;save();renderThralls()})}
-function renderArmory(){let q=$('catalogSearch').value.toLowerCase(),cl=$('catalogClass').value,ty=$('catalogType').value,availability=$('catalogAvailability').value;let entries=DATA.mods.filter(m=>{let allClasses=Object.keys(m.availability),universal=allClasses.length>3;let cs=cl==='all'||cl==='universal'?allClasses: [cl];if(cl==='universal'&&!universal)return false;let eligible=cs.filter(c=>m.availability[c]&&(ty==='all'||m.availability[c].type===ty));if(!eligible.length)return false;let count=owned(state.spark,m.id);if(availability==='unlocked'&&count<=0)return false;if(availability==='locked'&&count>0)return false;return (`${m.name} ${eligible.map(c=>m.availability[c].effect+' '+c+' '+m.availability[c].type).join(' ')}`).toLowerCase().includes(q)}).sort((a,b)=>a.name.localeCompare(b.name));let html='';for(let m of entries){let eligible=Object.keys(m.availability).filter(c=>cl==='all'||cl==='universal'||c===cl),shown=m.availability[state.spark]||m.availability[eligible[0]],type=shown.type,effect=shown.effect,count=owned(state.spark,m.id),max=maxCopies(state.spark,m.id);let sparkTags=(eligible.length<=3||m.id==='Mercury'?eligible:[]).map(c=>`<span class="tag spark-tag spark-${c.toLowerCase()}">Spark: ${esc(c)}</span>`).join('');html+=`<article class="catalog-entry"><div class="catalog-main"><div class="catalog-title"><h4>${esc(m.name)}</h4><span class="tag ${type.toLowerCase()}">${type}</span></div>${sparkTags?`<div class="spark-tags">${sparkTags}</div>`:''}<div class="catalog-description"><p>${formatTerms(effect)}</p><div class="avail">Available: ${esc(eligible.map(c=>`${c} ×${m.availability[c].max}`).join(' · '))} · Shared stock max ${max}</div></div></div><div class="count"><button data-dec="${esc(m.id)}" ${count<=0?'disabled':''}>−</button><b>${count}</b><button data-inc="${esc(m.id)}" ${count>=max?'disabled':''}>+</button></div></article>`}$('catalogList').innerHTML=html||'<p class="muted">No mods found.</p>';document.querySelectorAll('[data-inc]').forEach(b=>b.onclick=()=>{let id=b.dataset.inc;state.inventory[id]=Math.min(maxCopies(state.spark,id),owned(state.spark,id)+1);save();renderArmory();renderMods();renderEffective();renderPowers()});document.querySelectorAll('[data-dec]').forEach(b=>b.onclick=()=>{let id=b.dataset.dec;if(owned(state.spark,id)>0){state.inventory[id]=Math.max(0,owned(state.spark,id)-1);save();renderArmory();renderMods();renderEffective();renderPowers()}})}
-function initFilters(){$('catalogClass').innerHTML='<option value="all">All Sparks</option><option value="universal">Universal mods</option>'+Object.keys(CLASSES).map(c=>`<option>${c}</option>`).join('')}
-function render(){renderBase();renderChoices();renderEffective();renderMods();renderPowers();if($('armory').classList.contains('active'))renderArmory()}
-for(let id of ['pilotName','pronouns','background','description','notes'])$(id).addEventListener('input',()=>{state[id]=$(id).value;save()});$('catalogSearch').oninput=renderArmory;$('themeBtn').onclick=()=>{document.body.classList.toggle('light');$('themeBtn').textContent=document.body.classList.contains('light')?'Dark Mode':'Light Mode';localStorage.setItem('nova-theme',document.body.classList.contains('light')?'light':'dark')};$('catalogClass').onchange=renderArmory;$('catalogType').onchange=renderArmory;$('catalogAvailability').onchange=renderArmory;$('clearMods').onclick=()=>{state.installed=state.installed.filter(x=>x.cls!==state.spark);save();render()};
-$('exportBtn').onclick=()=>{let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));a.href=u;a.download='nova-character.json';a.click();URL.revokeObjectURL(u)};$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let v=JSON.parse(await f.text());if(!v.base||!v.inventory)throw Error();state={...state,...v};save();render()}catch{alert('Could not import this character file.')}};$('resetBtn').onclick=()=>{if(confirm('Reset this character and its unlocked mods?')){localStorage.removeItem(STORE);localStorage.removeItem('nova-spark-sheet-latest');clearBrowserSave();state={pilotName:'',pronouns:'',background:'',description:'',base:{Sun:1,Moon:1,Shade:1,Health:2,Fuel:2},spark:'Pyre',inventory:{},installed:[],assignments:{},currentResources:{},thralls:{}};render()}};
-load();initFilters();if(localStorage.getItem('nova-theme')==='light'){document.body.classList.add('light');$('themeBtn').textContent='Dark Mode'}initFilters();render();restoreBrowserSave();
-</script>
+</style></head><body>
+<form id="gateForm" autocomplete="on" hidden><input id="gUser" name="username" type="text" placeholder="Username" maxlength="24" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"><input id="gCode" name="password" type="password" placeholder="Access code" autocomplete="current-password"><button id="gBtn" type="submit">Enter</button><div id="gMsg" role="alert"></div></form>
 <script>/* @supabase/supabase-js 2.118.0 (MIT), bundled */
 (()=>{var Vs=Symbol.for("@supabase/supabase-js.traceContextExtractor");function yr(){return globalThis[Vs]}function ne(r,e){var t={};for(var s in r)Object.prototype.hasOwnProperty.call(r,s)&&e.indexOf(s)<0&&(t[s]=r[s]);if(r!=null&&typeof Object.getOwnPropertySymbols=="function")for(var n=0,s=Object.getOwnPropertySymbols(r);n<s.length;n++)e.indexOf(s[n])<0&&Object.prototype.propertyIsEnumerable.call(r,s[n])&&(t[s[n]]=r[s[n]]);return t}function mr(r,e,t,s){function n(i){return i instanceof t?i:new t(function(o){o(i)})}return new(t||(t=Promise))(function(i,o){function a(u){try{c(s.next(u))}catch(h){o(h)}}function l(u){try{c(s.throw(u))}catch(h){o(h)}}function c(u){u.done?i(u.value):n(u.value).then(a,l)}c((s=s.apply(r,e||[])).next())})}var vr=r=>r?(...e)=>r(...e):(...e)=>fetch(...e);var ge=class extends Error{constructor(e,t="FunctionsError",s){super(e),this.name=t,this.context=s}toJSON(){return{name:this.name,message:this.message,context:this.context}}},Ne=class extends ge{constructor(e){super("Failed to send a request to the Edge Function","FunctionsFetchError",e)}},ye=class extends ge{constructor(e){super("Relay Error invoking the Edge Function","FunctionsRelayError",e)}},me=class extends ge{constructor(e){super("Edge Function returned a non-2xx status code","FunctionsHttpError",e)}},Le;(function(r){r.Any="any",r.ApNortheast1="ap-northeast-1",r.ApNortheast2="ap-northeast-2",r.ApSouth1="ap-south-1",r.ApSoutheast1="ap-southeast-1",r.ApSoutheast2="ap-southeast-2",r.CaCentral1="ca-central-1",r.EuCentral1="eu-central-1",r.EuWest1="eu-west-1",r.EuWest2="eu-west-2",r.EuWest3="eu-west-3",r.SaEast1="sa-east-1",r.UsEast1="us-east-1",r.UsWest1="us-west-1",r.UsWest2="us-west-2"})(Le||(Le={}));var $e=class{constructor(e,{headers:t={},customFetch:s,region:n=Le.Any}={}){this.url=e,this.headers=t,this.region=n,this.fetch=vr(s)}setAuth(e){this.headers.Authorization=`Bearer ${e}`}invoke(e){return mr(this,arguments,void 0,function*(t,s={}){var n,i;let o,a,l;try{let{headers:c,method:u,body:h,signal:f,timeout:d}=s,p={},{region:g}=s;g||(g=this.region);let y=new URL(`${this.url}/${t}`);g&&g!=="any"&&(p["x-region"]=g,y.searchParams.set("forceFunctionRegion",g));let _,b=!!c&&Object.keys(c).some(je=>je.toLowerCase()==="content-type");h&&!b?typeof Blob!="undefined"&&h instanceof Blob||h instanceof ArrayBuffer?(p["Content-Type"]=h.type||"application/octet-stream",_=h):typeof h=="string"?(p["Content-Type"]="text/plain",_=h):typeof FormData!="undefined"&&h instanceof FormData?_=h:(p["Content-Type"]="application/json",_=JSON.stringify(h)):h&&typeof h!="string"&&!(typeof Blob!="undefined"&&h instanceof Blob)&&!(h instanceof ArrayBuffer)&&!(typeof FormData!="undefined"&&h instanceof FormData)?_=JSON.stringify(h):_=h;let w=f;d&&(a=new AbortController,o=setTimeout(()=>a.abort(),d),f?(w=a.signal,l=()=>a.abort(),f.addEventListener("abort",l)):w=a.signal);let E=yield this.fetch(y.toString(),{method:u||"POST",headers:Object.assign(Object.assign(Object.assign({},p),this.headers),c),body:_,signal:w}).catch(je=>{throw new Ne(je)}),j=E.headers.get("x-relay-error");if(j&&j==="true")throw new ye(E);if(!E.ok)throw new me(E);let k=((n=E.headers.get("Content-Type"))!==null&&n!==void 0?n:"text/plain").split(";")[0].trim().toLowerCase(),R;return k==="application/json"?R=yield E.json():k==="application/octet-stream"||k==="application/pdf"?R=yield E.blob():k==="text/event-stream"?R=E:k==="multipart/form-data"?R=yield E.formData():R=yield E.text(),{data:R,error:null,response:E}}catch(c){return{data:null,error:c,response:c instanceof me||c instanceof ye?c.context:void 0}}finally{o&&clearTimeout(o),l&&((i=s.signal)===null||i===void 0||i.removeEventListener("abort",l))}})}};var oe=class extends Error{constructor(r){super(r.message),this.name="PostgrestError",this.details=r.details,this.hint=r.hint,this.code=r.code}toJSON(){return{name:this.name,message:this.message,details:this.details,hint:this.hint,code:this.code}}},kr=3,_r=r=>Math.min(1e3*2**r,3e4),Gs=[520,503],Tr=["GET","HEAD","OPTIONS"];function Ue(r){"@babel/helpers - typeof";return Ue=typeof Symbol=="function"&&typeof Symbol.iterator=="symbol"?function(e){return typeof e}:function(e){return e&&typeof Symbol=="function"&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},Ue(r)}function zs(r,e){if(Ue(r)!="object"||!r)return r;var t=r[Symbol.toPrimitive];if(t!==void 0){var s=t.call(r,e||"default");if(Ue(s)!="object")return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return(e==="string"?String:Number)(r)}function Js(r){var e=zs(r,"string");return Ue(e)=="symbol"?e:e+""}function Xs(r,e,t){return(e=Js(e))in r?Object.defineProperty(r,e,{value:t,enumerable:!0,configurable:!0,writable:!0}):r[e]=t,r}function wr(r,e){var t=Object.keys(r);if(Object.getOwnPropertySymbols){var s=Object.getOwnPropertySymbols(r);e&&(s=s.filter(function(n){return Object.getOwnPropertyDescriptor(r,n).enumerable})),t.push.apply(t,s)}return t}function ie(r){for(var e=1;e<arguments.length;e++){var t=arguments[e]!=null?arguments[e]:{};e%2?wr(Object(t),!0).forEach(function(s){Xs(r,s,t[s])}):Object.getOwnPropertyDescriptors?Object.defineProperties(r,Object.getOwnPropertyDescriptors(t)):wr(Object(t)).forEach(function(s){Object.defineProperty(r,s,Object.getOwnPropertyDescriptor(t,s))})}return r}function br(r,e){return new Promise(t=>{if(e!=null&&e.aborted){t();return}let s=setTimeout(()=>{e==null||e.removeEventListener("abort",n),t()},r);function n(){clearTimeout(s),t()}e==null||e.addEventListener("abort",n)})}function Ys(r,e,t,s){return!(!s||t>=kr||!Tr.includes(r)||!Gs.includes(e))}async function Rr(r,e,t,s){let n=0;for(;;){let l=ie({},t.headers);n>0&&(l["X-Retry-Count"]=String(n));let c;try{c=await r(e,{method:t.method,headers:l,body:t.body,signal:t.signal})}catch(u){var i;if((u==null?void 0:u.name)==="AbortError"||(u==null?void 0:u.code)==="ABORT_ERR"||(u==null?void 0:u.name)==="TimeoutError"&&(!((i=t.signal)===null||i===void 0)&&i.aborted)||!Tr.includes(t.method))throw u;if(s&&n<kr){let h=_r(n);n++,await br(h,t.signal);continue}throw u}if(Ys(t.method,c.status,n,s)){var o,a;let u=(o=(a=c.headers)===null||a===void 0?void 0:a.get("Retry-After"))!==null&&o!==void 0?o:null,h=u!==null?Math.max(0,parseInt(u,10)||0)*1e3:_r(n);await c.text(),n++,await br(h,t.signal);continue}return c}}var Qs=class{constructor(r){var e,t,s,n,i;this.shouldThrowOnError=!1,this.retryEnabled=!0,this.method=r.method,this.url=r.url,this.headers=new Headers(r.headers),this.schema=r.schema,this.body=r.body,this.shouldThrowOnError=(e=r.shouldThrowOnError)!==null&&e!==void 0?e:!1,this.signal=r.signal,this.isMaybeSingle=(t=r.isMaybeSingle)!==null&&t!==void 0?t:!1,this.shouldStripNulls=(s=r.shouldStripNulls)!==null&&s!==void 0?s:!1,this.urlLengthLimit=(n=r.urlLengthLimit)!==null&&n!==void 0?n:8e3,this.retryEnabled=(i=r.retry)!==null&&i!==void 0?i:!0,r.fetch?this.fetch=r.fetch:this.fetch=fetch}throwOnError(){return this.shouldThrowOnError=!0,this}stripNulls(){if(this.headers.get("Accept")==="text/csv")throw new Error("stripNulls() cannot be used with csv()");return this.shouldStripNulls=!0,this}setHeader(r,e){return this.headers=new Headers(this.headers),this.headers.set(r,e),this}retry(r){return this.retryEnabled=r,this}then(r,e){var t=this;if(this.schema===void 0||(["GET","HEAD"].includes(this.method)?this.headers.set("Accept-Profile",this.schema):this.headers.set("Content-Profile",this.schema)),this.method!=="GET"&&this.method!=="HEAD"&&this.headers.set("Content-Type","application/json"),this.shouldStripNulls){let o=this.headers.get("Accept");o==="application/vnd.pgrst.object+json"?this.headers.set("Accept","application/vnd.pgrst.object+json;nulls=stripped"):(!o||o==="application/json")&&this.headers.set("Accept","application/vnd.pgrst.array+json;nulls=stripped")}let s=this.fetch,i=(async()=>{let o={};t.headers.forEach((l,c)=>{o[c]=l});let a=await Rr(s,t.url.toString(),{method:t.method,headers:o,body:JSON.stringify(t.body,(l,c)=>typeof c=="bigint"?c.toString():c),signal:t.signal},t.retryEnabled);return await t.processResponse(a)})();return this.shouldThrowOnError||(i=i.catch(o=>{var a;let l="",c="",u="",h=o==null?void 0:o.cause;if(h){var f,d,p,g;let b=(f=h==null?void 0:h.message)!==null&&f!==void 0?f:"",w=(d=h==null?void 0:h.code)!==null&&d!==void 0?d:"";l=`${(p=o==null?void 0:o.name)!==null&&p!==void 0?p:"FetchError"}: ${o==null?void 0:o.message}`,l+=`
 
@@ -238,64 +43,20 @@ ${_}`}var A=class extends Error{constructor({message:e,code:t,cause:s,name:n}){v
 
 </script>
 <script>
-/* ===== Online table client (Supabase) ===== */
+/* Public login shell: contains no game data. The real app is fetched from private storage after sign-in. */
 (()=>{
 const SB_URL='https://rrfhgplvqhoebphhhxfr.supabase.co';
 const SB_KEY='sb_publishable_bRuTblF2YH6VzoyVMRZy8Q_yKCISgFT';
-const ORIG_TITLE='NOVA — Spark Sheet';
-const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
-
-const TX={tab:'Table',title:'Online table',intro:'The GM creates a table and sends players an invite link. Sheets sync in real time and every roll is visible to the table.',
- your_name:'Display name at the table',err_name:'Enter a display name. It is shown to other players.',create_title:'Create a table',create_ph:'Table name',create_btn:'Create',join_title:'Join a table',join_ph:'Invite link or code',join_btn:'Join',
- my_tables:'My tables',none:'No tables yet.',open:'Open',gm:'GM',player:'Player',members:'Members',chars:'Characters',invite:'Invite link',copy:'Copy',copied:'Copied',
- newlink:'New link',newlink_confirm:'The old link will stop working. Continue?',kick:'Remove',kick_confirm:'Remove this player from the table?',leave:'Leave table',
- leave_confirm:'Leave this table? Your sheet stays with the GM.',delroom:'Delete table',delroom_confirm:'Delete the table with all sheets and rolls? This cannot be undone.',
- close:'Close table',open_sheet:'Open sheet',you:'you',npc_add:'+ NPC',npc_name:'NPC name',delchar:'Delete',delchar_confirm:'Delete this sheet?',
- rolls:'Roll log (last hour)',no_rolls:'No rolls yet.',editing:'Editing',viewing:'Viewing',readonly:'read-only',pick_sheet:'Pick a character on the Table tab',
- back_to_table:'Back to table',sync_ok:'Synced',sync_busy:'Syncing…',sync_err:'Offline, retrying…',reset_confirm:'Reset this character at the table?',
- seed_confirm:'Upload your local sheet to this table?',err_full:'This table is full.',err_invite:'Invalid or outdated invite.',err_limit:'Limit reached: up to 3 tables per GM.',
- err_generic:'Error: ',invited:'You have been invited to a table. Enter your name and press Join.',seats:'seats',
- my_sheet:'My sheet',party:'Party',reveal:'Reveal to players',unreveal:'Hide from players',hidden_tag:'hidden',shown_tag:'revealed',sign_out:'Sign out'};
-const t=k=>TX[k]??k;
-
-const DEFAULT=()=>({pilotName:'',pronouns:'',background:'',description:'',notes:'',base:{Sun:1,Moon:1,Shade:1,Health:2,Fuel:2},spark:'Pyre',inventory:{},installed:[],assignments:{},currentResources:{},thralls:{}});
-const clone=o=>JSON.parse(JSON.stringify(o));
-function canon(o){if(Array.isArray(o))return o.map(canon);if(o&&typeof o==='object'){const r={};Object.keys(o).sort().forEach(k=>{r[k]=canon(o[k])});return r}return o}
-const cj=o=>JSON.stringify(canon(o));
-
-let session=null,myId=null,myUser='',curTab='character';
-const R={room:null,role:null,members:[],chars:new Map(),secrets:new Map(),rolls:[],invite:null,channel:null,view:null,canEdit:false,
-  dirty:false,timer:null,lastPushed:'',lastSecretPushed:'',localSeed:null,rooms:[],msg:'',pendingCode:'',partyOpen:window.innerWidth>=1100};
-
-/* ---------- helpers ---------- */
-const myName=()=>localStorage.getItem('nova-display-name')||'';
-function readName(){const v=(($('tbName')&&$('tbName').value)||'').trim()||myName();if(v)localStorage.setItem('nova-display-name',v);return v}
-const isTableOpen=()=>$('table').classList.contains('active');
-function parseCode(s){s=(s||'').trim();const m=s.match(/join=([A-Za-z0-9_-]+)/);return m?m[1]:(/^[A-Za-z0-9_-]{8,}$/.test(s)?s:'')}
-function genCode(){const a=new Uint8Array(8);crypto.getRandomValues(a);return [...a].map(x=>x.toString(16).padStart(2,'0')).join('')}
-const charName=c=>(c.data&&c.data.pilotName)||c.name||'—';
-const ownChar=()=>[...R.chars.values()].find(c=>c.owner_id===myId);
-const canSeeArmory=()=>!R.room||!!(R.view&&R.canEdit);
-function setSync(k){if(R.room)$('saveState').textContent=t(k)}
-function toast(html){const box=$('toasts'),el=document.createElement('div');el.className='toast';el.innerHTML=html;box.appendChild(el);setTimeout(()=>el.remove(),7000);while(box.children.length>3)box.firstChild.remove()}
+const DEV_KEY='nova-device',CACHE_KEY='nova-app-cache';
+const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:false}});
+const $=id=>document.getElementById(id);
+const msg=t=>{$('gMsg').textContent=t||''};
+function showForm(m){$('gateForm').hidden=false;msg(m);const u=$('gUser');if(u)u.focus()}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
-function showErr(err){
-  const m=(err&&err.message)||String(err);
-  if(/room is full/i.test(m))R.msg=t('err_full');
-  else if(/invalid invite/i.test(m))R.msg=t('err_invite');
-  else if(/room limit/i.test(m))R.msg=t('err_limit');
-  else R.msg=t('err_generic')+m;
-  setTab('table');renderTable();
-}
-
-/* ---------- login gate ---------- */
-const DEV_KEY='nova-device';
-const saveDevice=(u,c)=>{try{localStorage.setItem(DEV_KEY,JSON.stringify({u,c}))}catch(e){}};
-const clearDevice=()=>{try{localStorage.removeItem(DEV_KEY)}catch(e){}};
 async function ensureSession(){
   let {data:{session:s}}=await sb.auth.getSession();
   if(!s){const {data,error}=await sb.auth.signInAnonymously();if(error)throw error;s=data.session}
-  session=s;return s;
+  return s;
 }
 async function tryAutoLogin(){
   let d=null;try{d=JSON.parse(localStorage.getItem(DEV_KEY)||'null')}catch(e){}
@@ -304,429 +65,59 @@ async function tryAutoLogin(){
     await ensureSession();
     const r=await rpc('login',{p_username:d.u,p_code:d.c});
     if(r&&r.ok)return r;
-    if(r&&(r.error==='invalid'||r.error==='taken'))clearDevice();
+    if(r&&(r.error==='invalid'||r.error==='taken')){localStorage.removeItem(DEV_KEY);localStorage.removeItem(CACHE_KEY)}
   }catch(e){}
   return null;
 }
-function showGate(msg){
-  document.body.classList.add('locked','gate-on');document.title='Sign in';
-  $('gMsg').textContent=msg||'';setTimeout(()=>{const u=$('gUser');if(u)u.focus()},50);
+async function fetchApp(){
+  const st=sb.storage.from('app');let ver='';
+  try{
+    const {data}=await st.list('',{limit:10,search:'app.html'});
+    const o=(data||[]).find(x=>x.name==='app.html');
+    if(o)ver=(o.updated_at||'')+'|'+((o.metadata&&o.metadata.eTag)||'');
+  }catch(e){}
+  let cache=null;try{cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null')}catch(e){}
+  if(cache&&ver&&cache.ver===ver&&cache.html)return cache.html;
+  const {data,error}=await st.download('app.html');
+  if(error||!data)throw error||new Error('download failed');
+  const html=await data.text();
+  try{localStorage.setItem(CACHE_KEY,JSON.stringify({ver,html}))}catch(e){}
+  return html;
 }
-async function unlock(me){
-  myId=me.id;myUser=me.username;
-  document.body.classList.remove('locked','gate-on');document.title=ORIG_TITLE;
-  $('userTag').textContent=myUser;$('gCode').value='';
-  try{await loadMyRooms()}catch(e){}
-  const m=location.hash.match(/join=([A-Za-z0-9_-]+)/);
-  if(m){R.pendingCode=m[1];setTab('table')}
-  else{
-    const last=localStorage.getItem('nova-last-room');
-    if(last&&R.rooms.some(r=>r.id===last)){try{await openRoom(last);setTab('character')}catch(e){}}
-  }
-  renderTable();
-}
-async function lockApp(msg){
-  try{await closeRoom(true)}catch(e){}
-  myId=null;myUser='';R.rooms=[];R.msg='';
-  showGate(msg);
+async function enter(){
+  const html=await fetchApp();
+  try{await sb.auth.stopAutoRefresh()}catch(e){}
+  document.open();document.write(html);document.close();
 }
 $('gateForm').addEventListener('submit',async ev=>{
   ev.preventDefault();
   const u=$('gUser').value.trim(),c=$('gCode').value.trim(),btn=$('gBtn');
-  if(!u||!c){$('gMsg').textContent='Enter your username and access code.';return}
-  btn.disabled=true;$('gMsg').textContent='';
+  if(!u||!c){msg('Enter your username and access code.');return}
+  btn.disabled=true;msg('');
   try{
     await ensureSession();
     const r=await rpc('login',{p_username:u,p_code:c});
-    if(r&&r.ok){saveDevice(u,c);await unlock(r)}
-    else{
+    if(r&&r.ok){
+      try{localStorage.setItem(DEV_KEY,JSON.stringify({u,c}))}catch(e){}
+      try{await enter();return}catch(e){msg('Could not load the application. Try again later.')}
+    }else{
       const e=r&&r.error;
-      $('gMsg').textContent=e==='throttled'?'Too many attempts. Try again later.':e==='taken'?'This username is already taken.':'Invalid username or access code.';
+      msg(e==='throttled'?'Too many attempts. Try again later.':e==='taken'?'This username is already taken.':'Invalid username or access code.');
     }
-  }catch(err){$('gMsg').textContent='Sign-in is unavailable. Check your connection and try again.'}
+  }catch(err){msg('Sign-in is unavailable. Check your connection and try again.')}
   finally{btn.disabled=false}
 });
-$('signOutBtn').onclick=async()=>{
-  clearDevice();
-  try{await closeRoom(true)}catch(e){}
-  try{await rpc('logout')}catch(e){}
-  myId=null;myUser='';R.rooms=[];R.msg='';showGate();
-};
-sb.auth.onAuthStateChange((_e,s)=>{session=s});
-
-/* ---------- loading data ---------- */
-async function loadMyRooms(){
-  const {data,error}=await sb.from('room_members').select('role,display_name,rooms(id,name,max_members)').eq('user_id',myId);
-  if(error)throw error;
-  R.rooms=(data||[]).filter(x=>x.rooms).map(x=>({id:x.rooms.id,name:x.rooms.name,role:x.role}));
-}
-async function fetchRoom(id){
-  const since=new Date(Date.now()-3600e3).toISOString();
-  const [room,mem,chr,sec,rol,inv]=await Promise.all([
-    sb.from('rooms').select('id,name,max_members').eq('id',id).maybeSingle(),
-    sb.from('room_members').select('user_id,role,display_name').eq('room_id',id),
-    sb.from('characters').select('id,owner_id,name,data,revealed,updated_at').eq('room_id',id),
-    sb.from('character_secrets').select('character_id,data').eq('room_id',id),
-    sb.from('rolls').select('*').eq('room_id',id).gte('created_at',since).order('created_at',{ascending:false}).limit(60),
-    sb.from('room_invites').select('code').eq('room_id',id).maybeSingle()
-  ]);
-  for(const r of [room,mem,chr,sec,rol])if(r.error)throw r.error;
-  return {room:room.data,members:mem.data||[],chars:chr.data||[],secrets:sec.data||[],rolls:rol.data||[],invite:inv.data?inv.data.code:null};
-}
-function applyFetched(f){
-  R.room=f.room;R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));
-  R.secrets=new Map(f.secrets.map(s=>[s.character_id,s.data]));R.rolls=f.rolls;R.invite=f.invite;
-  const me=R.members.find(m=>m.user_id===myId);R.role=me?me.role:null;
-}
-
-/* ---------- sheet <-> room ---------- */
-function loadIntoSheet(data,secret){
-  state=DEFAULT();
-  if(data&&data.base){
-    const v={...data};
-    if(secret&&secret.inventory)v.inventory=secret.inventory;else if(!v.inventory)v.inventory={};
-    normalizeState(v);
-  }
-  render();
-}
-function applyMode(){
-  const inRoom=!!R.room,ro=inRoom&&!(R.view&&R.canEdit);
-  ['character','spark','armory'].forEach(id=>{$(id).inert=ro});
-  ['importBtn','resetBtn'].forEach(id=>{$(id).disabled=ro});
-  const armBtn=document.querySelector('nav [data-tab=armory]');
-  if(armBtn)armBtn.hidden=!canSeeArmory();
-  if(curTab==='armory'&&!canSeeArmory())setTab('character');
-  const b=$('viewBanner');
-  if(!inRoom){b.hidden=true;syncParty();return}
-  const c=R.view&&R.chars.get(R.view),own=ownChar();
-  const txt=c?`${R.canEdit?t('editing'):t('viewing')}: ${charName(c)}${R.canEdit?'':' — '+t('readonly')}`:t('pick_sheet');
-  b.innerHTML=`<span>${esc(txt)}</span><span class="tb-row">${own&&R.view!==own.id?`<button class="primary" data-act="mysheet">${esc(t('my_sheet'))}</button>`:''}<button data-act="totable">${esc(t('back_to_table'))}</button></span>`;
-  b.hidden=false;syncParty();
-}
-function viewCharacter(id,go){
-  const c=R.chars.get(id);if(!c)return;
-  pushNow();
-  R.view=id;R.canEdit=c.owner_id===myId||R.role==='gm';R.dirty=false;
-  const sec=R.canEdit?R.secrets.get(id):undefined;
-  R.lastPushed=cj(c.data||{});R.lastSecretPushed=cj((sec&&sec.inventory)||{});
-  const empty=!(c.data&&c.data.base);
-  if(empty&&c.owner_id===myId&&R.localSeed&&(R.localSeed.pilotName||(R.localSeed.installed||[]).length||Object.keys(R.localSeed.inventory||{}).length)&&confirm(t('seed_confirm'))){
-    loadIntoSheet(R.localSeed);R.dirty=true;scheduleRemoteSave();
-  }else{
-    loadIntoSheet(c.data,sec);
-    if(empty&&!state.pilotName&&c.name)state.pilotName=c.name;
-  }
-  applyMode();
-  if(go)setTab('character');
-}
-function applyRemote(n){
-  if(R.dirty)return;
-  const j=cj(n.data||{});
-  if(j===R.lastPushed)return;
-  R.lastPushed=j;
-  const sec=R.canEdit?R.secrets.get(n.id):undefined;
-  loadIntoSheet(n.data,sec);
-  applyMode();
-}
-
-/* ---------- saving ---------- */
-function scheduleRemoteSave(){R.dirty=true;setSync('sync_busy');clearTimeout(R.timer);R.timer=setTimeout(pushNow,1200)}
-async function pushNow(){
-  clearTimeout(R.timer);
-  if(!R.dirty||!R.room||!R.view||!R.canEdit)return;
-  const id=R.view,snap=clone(state),inv=snap.inventory||{};delete snap.inventory;
-  const name=(snap.pilotName||'').slice(0,60),pubJ=cj(snap),invJ=cj(inv);
-  R.lastPushed=pubJ;R.dirty=false;
-  let error=(await sb.from('characters').update({name,data:snap}).eq('id',id)).error;
-  if(!error&&invJ!==R.lastSecretPushed){
-    error=(await sb.from('character_secrets').upsert({character_id:id,data:{inventory:inv}},{onConflict:'character_id'})).error;
-    if(!error){R.lastSecretPushed=invJ;R.secrets.set(id,{inventory:inv})}
-  }
-  if(error){R.dirty=true;setSync('sync_err');R.timer=setTimeout(pushNow,5000);return}
-  const c=R.chars.get(id);if(c){c.data=snap;c.name=name}
-  setSync('sync_ok');refreshViews();
-}
-const _origSave=save;
-save=function(){
-  if(!R.room){_origSave();return}
-  if(R.view&&R.canEdit)scheduleRemoteSave();
-};
-const _origSetTab=setTab;
-setTab=function(tab){
-  if(tab==='armory'&&!canSeeArmory())tab='character';
-  _origSetTab(tab);curTab=tab;
-  if(tab==='table')renderTable();
-  syncParty();
-};
-const _origReset=$('resetBtn').onclick;
-$('resetBtn').onclick=function(ev){
-  if(R.room){if(R.view&&R.canEdit&&confirm(t('reset_confirm'))){state=DEFAULT();save();render()}return}
-  return _origReset.call(this,ev);
-};
-window.onRoll=async function(stat,rolls,kept,out){
-  if(!R.room||!R.view||!R.canEdit)return;
-  const c=R.chars.get(R.view);
-  const {error}=await sb.from('rolls').insert({room_id:R.room.id,user_id:myId,character_id:R.view,
-    actor:(state.pilotName||(c&&c.name)||myName()||'?').slice(0,40),label:`${stat} · ${rolls.length}d6kh1`,dice:rolls,kept_index:kept,outcome:String(out).slice(0,120)});
-  if(error)toast(esc(t('err_generic')+error.message));
-};
-
-/* ---------- realtime ---------- */
-function subscribe(id){
-  R.channel=sb.channel('room-'+id)
-    .on('postgres_changes',{event:'*',schema:'public',table:'characters',filter:'room_id=eq.'+id},onChar)
-    .on('postgres_changes',{event:'*',schema:'public',table:'character_secrets',filter:'room_id=eq.'+id},onSecret)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'rolls',filter:'room_id=eq.'+id},onRollEvent)
-    .on('postgres_changes',{event:'*',schema:'public',table:'room_members',filter:'room_id=eq.'+id},onMember)
-    .subscribe(status=>{
-      if(status==='SUBSCRIBED'){setSync('sync_ok');refreshRoom()}
-      else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')setSync('sync_err');
-    });
-}
-function onChar(p){
-  if(p.eventType==='DELETE'){
-    const id=p.old&&p.old.id;if(!id||!R.chars.has(id))return;
-    R.chars.delete(id);R.secrets.delete(id);
-    if(R.view===id){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({});}
-  }else{
-    const n=p.new;R.chars.set(n.id,n);
-    if(R.view===n.id)applyRemote(n);
-  }
-  applyMode();refreshViews();
-}
-function onSecret(p){
-  const n=p.new;if(!n||!n.character_id)return;
-  R.secrets.set(n.character_id,n.data);
-  if(R.view===n.character_id&&R.canEdit&&!R.dirty){
-    const j=cj((n.data&&n.data.inventory)||{});
-    if(j!==R.lastSecretPushed){R.lastSecretPushed=j;const c=R.chars.get(R.view);loadIntoSheet(c&&c.data,n.data);applyMode()}
-  }
-}
-function onRollEvent(p){
-  const r=p.new;if(R.rolls.some(x=>x.id===r.id))return;
-  R.rolls.unshift(r);R.rolls=R.rolls.slice(0,60);
-  if(r.user_id!==myId){
-    const dice=(r.dice||[]).map((n,i)=>`<span class="die ${i===r.kept_index?'kept':''}">${n}</span>`).join('');
-    toast(`<b>${esc(r.actor)}</b> · ${esc(r.label)}<div class="roll-dice">${dice}</div><b>${esc(r.outcome)}</b>`);
-  }
-  refreshViews();
-}
-async function onMember(p){
-  if(p.eventType==='DELETE'){
-    const o=p.old||{};
-    if(o.user_id===myId&&(!o.room_id||o.room_id===R.room.id)){await closeRoom(true);await loadMyRooms();renderTable();return}
-    if(o.user_id)R.members=R.members.filter(m=>m.user_id!==o.user_id);
-  }else{
-    const n=p.new,i=R.members.findIndex(m=>m.user_id===n.user_id);
-    if(i>=0)R.members[i]=n;else R.members.push(n);
-  }
-  refreshViews();
-}
-async function refreshRoom(){
-  if(!R.room)return;
-  try{
-    const f=await fetchRoom(R.room.id);
-    if(!f.room||!f.members.some(m=>m.user_id===myId)){await closeRoom(true);await loadMyRooms();renderTable();return}
-    const viewing=R.view;
-    R.members=f.members;R.chars=new Map(f.chars.map(c=>[c.id,c]));
-    R.secrets=new Map(f.secrets.map(s=>[s.character_id,s.data]));R.rolls=f.rolls;R.invite=f.invite;
-    if(viewing&&!R.chars.has(viewing)){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({})}
-    else if(viewing){
-      const c=R.chars.get(viewing),sj=cj(((R.secrets.get(viewing)||{}).inventory)||{});
-      if(!R.dirty&&R.canEdit&&sj!==R.lastSecretPushed){R.lastSecretPushed=sj;R.lastPushed=cj(c.data||{});loadIntoSheet(c.data,R.secrets.get(viewing))}
-      else applyRemote(c);
-    }
-    applyMode();refreshViews();
-  }catch(e){setSync('sync_err')}
-}
-
-/* ---------- open / close ---------- */
-async function openRoom(id){
-  if(!myId)throw new Error('not logged in');
-  if(R.room){await closeRoom(false)}else{R.localSeed=clone(state)}
-  const f=await fetchRoom(id);
-  if(!f.room)throw new Error('invalid invite');
-  applyFetched(f);R.view=null;R.canEdit=false;R.dirty=false;
-  localStorage.setItem('nova-last-room',id);
-  subscribe(id);
-  const own=ownChar();
-  if(own)viewCharacter(own.id,false);else{loadIntoSheet({})}
-  applyMode();setSync('sync_ok');setTab('table');
-}
-async function closeRoom(restore){
-  await pushNow();
-  clearTimeout(R.timer);
-  if(R.channel){try{await sb.removeChannel(R.channel)}catch(e){}R.channel=null}
-  Object.assign(R,{room:null,role:null,view:null,canEdit:false,members:[],chars:new Map(),secrets:new Map(),rolls:[],invite:null,dirty:false});
-  if(restore){
-    R.localSeed=null;localStorage.removeItem('nova-last-room');
-    state=DEFAULT();load();render();$('saveState').textContent='Saved';
-  }
-  applyMode();
-}
-
-/* ---------- rendering ---------- */
-function calcStats(c){
-  const d=c.data||{};if(!d.base)return null;
-  let e=null;const prev=state;
-  try{state={...DEFAULT(),...d};e=effective()}catch(err){e=null}finally{state=prev}
-  if(!e)return null;
-  const cur=(d.currentResources&&d.currentResources[d.spark])||{};
-  return {v:e.vals,hp:cur.Health??e.vals.Health,fu:cur.Fuel??e.vals.Fuel};
-}
-function statsLine(c){
-  const s=calcStats(c);if(!s)return '<span class="muted">—</span>';
-  return `Health ${s.hp}/${s.v.Health} · Fuel ${s.fu}/${s.v.Fuel}<br>Sun ${s.v.Sun} · Moon ${s.v.Moon} · Shade ${s.v.Shade}`;
-}
-function miniStats(c){const s=calcStats(c);return s?`HP ${s.hp}/${s.v.Health} · Fuel ${s.fu}/${s.v.Fuel}`:'—'}
-const sortedChars=()=>[...R.chars.values()].sort((a,b)=>(b.owner_id===myId)-(a.owner_id===myId)||charName(a).localeCompare(charName(b)));
-const recentRolls=()=>{const cut=Date.now()-3600e3;return R.rolls.filter(r=>new Date(r.created_at).getTime()>cut)};
-function rollHTML(r){
-  const when=new Date(r.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  const dice=(r.dice||[]).map((n,i)=>`<span class="die ${i===r.kept_index?'kept':''}">${n}</span>`).join('');
-  return `<div class="tb-roll"><span class="when">${when}</span><span><b>${esc(r.actor)}</b> · ${esc(r.label)}</span><div class="roll-dice">${dice}</div><b>${esc(r.outcome)}</b></div>`;
-}
-function refreshViews(){if(isTableOpen())renderTable();renderParty()}
-function renderTable(){
-  const root=$('tableRoot');if(!root)return;
-  const keep={};['tbName','tbCreate','tbJoin'].forEach(id=>{const el=$(id);if(el)keep[id]=el.value});
-  root.innerHTML=R.room?roomHTML():lobbyHTML();
-  for(const id in keep){const el=$(id);if(el&&keep[id])el.value=keep[id]}
-  if(!R.room&&$('tbName')&&!$('tbName').value)$('tbName').value=myName();
-}
-function msgHTML(){return R.msg?`<div class="tb-msg">${esc(R.msg)}</div>`:''}
-function lobbyHTML(){
-  const rooms=R.rooms.length?`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('my_tables')}</h3>${R.rooms.map(r=>`<div class="tb-row between" style="margin:8px 0"><span><b>${esc(r.name)}</b> <span class="tag">${t(r.role==='gm'?'gm':'player')}</span></span><button data-act="open_room" data-id="${r.id}">${t('open')}</button></div>`).join('')}</div>`:'';
-  return `<div class="card"><div class="eyebrow">${t('title')}</div><h2>${t('tab')}</h2><p class="muted small">${t('intro')}</p>${R.pendingCode?`<div class="tb-msg">${t('invited')}</div>`:''}${msgHTML()}
-  <div class="field"><label>${t('your_name')}</label><input id="tbName" type="text" maxlength="40" placeholder="Shown to other players" value="${esc(myName())}"></div>
-  <div class="two"><div><h3 class="spark-section-title">${t('create_title')}</h3><div class="field"><input id="tbCreate" type="text" maxlength="60" placeholder="${t('create_ph')}"></div><button class="primary" data-act="create">${t('create_btn')}</button></div>
-  <div><h3 class="spark-section-title">${t('join_title')}</h3><div class="field"><input id="tbJoin" type="text" placeholder="${t('join_ph')}" value="${esc(R.pendingCode)}"></div><button class="primary" data-act="join">${t('join_btn')}</button></div></div></div>${rooms}`;
-}
-function roomHTML(){
-  const gm=R.role==='gm',chars=sortedChars();
-  const link=R.invite?location.href.split('#')[0]+'#join='+R.invite:'';
-  const head=`<div class="card"><div class="eyebrow">${t('title')} · ${R.members.length}/${R.room.max_members} ${t('seats')}</div><div class="tb-row between"><h2 style="margin:0">${esc(R.room.name)} <span class="tag">${t(gm?'gm':'player')}</span></h2>
-   <div class="tb-row"><button data-act="close">${t('close')}</button>${gm?`<button data-act="delroom">${t('delroom')}</button>`:`<button data-act="leave">${t('leave')}</button>`}</div></div>${msgHTML()}
-   ${gm&&link?`<div class="tb-invite"><input id="tbLink" type="text" readonly value="${esc(link)}"><button data-act="copy">${t('copy')}</button><button data-act="newlink">${t('newlink')}</button></div>`:''}</div>`;
-  const cards=chars.map(c=>{
-    const me=c.owner_id===myId,owner=R.members.find(m=>m.user_id===c.owner_id);
-    const sub=c.owner_id?(owner?owner.display_name:'—'):'NPC';
-    const spark=c.data&&c.data.spark?String(c.data.spark).toUpperCase():'';
-    const npcTag=!c.owner_id?` <span class="tag">${t(c.revealed?'shown_tag':'hidden_tag')}</span>`:'';
-    return `<div class="tb-char ${me?'me':''}"><div class="tb-name">${esc(charName(c))}${me?` <span class="tag">${t('you')}</span>`:''}${npcTag}</div><div class="tb-sub">${esc(sub)}${spark?' · '+esc(spark):''}</div><div class="tb-stats">${statsLine(c)}</div>
-     <div class="tb-row"><button class="primary" data-act="view" data-id="${c.id}">${t('open_sheet')}</button>${gm&&!c.owner_id?`<button data-act="reveal" data-id="${c.id}" data-val="${c.revealed?0:1}">${t(c.revealed?'unreveal':'reveal')}</button>`:''}${gm?`<button data-act="delchar" data-id="${c.id}">${t('delchar')}</button>`:''}</div></div>`;
-  }).join('');
-  const chardiv=`<div class="card" style="margin-top:16px"><div class="tb-row between"><h3 class="spark-section-title" style="margin:0">${t('chars')}</h3>${gm?`<button data-act="addnpc">${t('npc_add')}</button>`:''}</div><div class="tb-chars">${cards}</div></div>`;
-  const members=`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('members')}</h3><div class="tb-members">${R.members.map(m=>`<div class="tb-row between"><span>${esc(m.display_name)} <span class="tag">${t(m.role==='gm'?'gm':'player')}</span></span>${gm&&m.role==='player'?`<button data-act="kick" data-id="${m.user_id}">${t('kick')}</button>`:''}</div>`).join('')}</div></div>`;
-  const rolls=recentRolls();
-  const log=`<div class="card" style="margin-top:16px"><h3 class="spark-section-title">${t('rolls')}</h3><div class="tb-log">${rolls.length?rolls.map(rollHTML).join(''):`<span class="muted small">${t('no_rolls')}</span>`}</div></div>`;
-  return head+chardiv+members+log;
-}
-/* right-hand party panel (shown on the sheet tabs) */
-function syncParty(){
-  const show=!!R.room&&['character','spark','armory'].includes(curTab);
-  $('partyToggle').hidden=!show;$('party').hidden=!show;
-  document.body.classList.toggle('party-open',show&&R.partyOpen);
-  if(show)renderParty();
-}
-function renderParty(){
-  const body=$('partyBody');if(!body||$('party').hidden||!R.room)return;
-  const own=ownChar();
-  const rows=sortedChars().map(c=>{
-    const tag=!c.owner_id?` <span class="tag">${t(c.revealed?'shown_tag':'hidden_tag')}</span>`:'';
-    return `<button class="pt-row ${c.id===R.view?'on':''}" data-act="view" data-id="${c.id}"><span class="pt-name">${esc(charName(c))}${c.owner_id===myId?` <span class="tag">${t('you')}</span>`:''}${tag}</span><span class="pt-sub">${esc(miniStats(c))}</span></button>`;
-  }).join('');
-  const rolls=recentRolls().slice(0,15);
-  body.innerHTML=`${own&&R.view!==own.id?`<button class="primary" data-act="mysheet" style="width:100%;margin-bottom:10px">${t('my_sheet')}</button>`:''}<div class="pt-list">${rows}</div>
-   <h3 class="spark-section-title" style="margin-top:16px">${t('rolls')}</h3><div class="tb-log" style="max-height:none">${rolls.length?rolls.map(rollHTML).join(''):`<span class="muted small">${t('no_rolls')}</span>`}</div>`;
-}
-
-/* ---------- actions ---------- */
-document.addEventListener('click',async ev=>{
-  const b=ev.target.closest('[data-act]');if(!b)return;
-  R.msg='';
-  try{await act(b.dataset.act,b.dataset,b)}catch(err){showErr(err)}
-});
-async function act(a,d,btn){
-  switch(a){
-    case 'create':{
-      const name=($('tbCreate').value||'').trim()||'Table',dn=readName();
-      if(!dn){R.msg=t('err_name');renderTable();return}
-      const id=await rpc('create_room',{p_name:name,p_display_name:dn});
-      await loadMyRooms();await openRoom(id);break}
-    case 'join':{
-      const code=parseCode($('tbJoin').value);
-      if(!code){R.msg=t('err_invite');renderTable();return}
-      const dn=readName();
-      if(!dn){R.msg=t('err_name');renderTable();return}
-      const id=await rpc('join_room',{p_code:code,p_display_name:dn});
-      R.pendingCode='';history.replaceState(null,'',location.pathname+location.search);
-      await loadMyRooms();await openRoom(id);break}
-    case 'open_room':await openRoom(d.id);break;
-    case 'close':await closeRoom(true);await loadMyRooms();setTab('table');break;
-    case 'totable':setTab('table');break;
-    case 'view':viewCharacter(d.id,curTab==='table');break;
-    case 'mysheet':{const own=ownChar();if(own)viewCharacter(own.id,curTab==='table');break}
-    case 'partyclose':R.partyOpen=false;syncParty();break;
-    case 'copy':{
-      const v=$('tbLink').value;
-      try{await navigator.clipboard.writeText(v)}catch(e){$('tbLink').select();document.execCommand('copy')}
-      btn.textContent=t('copied');break}
-    case 'newlink':{
-      if(!confirm(t('newlink_confirm')))return;
-      const code=genCode();
-      const {error}=await sb.from('room_invites').update({code}).eq('room_id',R.room.id);if(error)throw error;
-      R.invite=code;renderTable();break}
-    case 'kick':{
-      if(!confirm(t('kick_confirm')))return;
-      const {error}=await sb.from('room_members').delete().eq('room_id',R.room.id).eq('user_id',d.id);if(error)throw error;
-      R.members=R.members.filter(m=>m.user_id!==d.id);renderTable();break}
-    case 'leave':{
-      if(!confirm(t('leave_confirm')))return;
-      const id=R.room.id;await pushNow();
-      const {error}=await sb.from('room_members').delete().eq('room_id',id).eq('user_id',myId);if(error)throw error;
-      await closeRoom(true);await loadMyRooms();renderTable();break}
-    case 'delroom':{
-      if(!confirm(t('delroom_confirm')))return;
-      const id=R.room.id;
-      const {error}=await sb.from('rooms').delete().eq('id',id);if(error)throw error;
-      await closeRoom(true);await loadMyRooms();renderTable();break}
-    case 'addnpc':{
-      const name=(prompt(t('npc_name'))||'').trim();if(!name)return;
-      const {data,error}=await sb.from('characters').insert({room_id:R.room.id,owner_id:null,name:name.slice(0,60),data:{}}).select('id,owner_id,name,data,revealed,updated_at').single();
-      if(error)throw error;R.chars.set(data.id,data);refreshViews();break}
-    case 'reveal':{
-      const val=d.val==='1';
-      const {error}=await sb.from('characters').update({revealed:val}).eq('id',d.id);if(error)throw error;
-      const c=R.chars.get(d.id);if(c)c.revealed=val;refreshViews();break}
-    case 'delchar':{
-      if(!confirm(t('delchar_confirm')))return;
-      const {error}=await sb.from('characters').delete().eq('id',d.id);if(error)throw error;
-      R.chars.delete(d.id);R.secrets.delete(d.id);
-      if(R.view===d.id){R.view=null;R.canEdit=false;R.dirty=false;loadIntoSheet({});applyMode()}
-      refreshViews();break}
-  }
-}
-$('partyToggle').onclick=()=>{R.partyOpen=true;syncParty()};
-
-/* ---------- lifecycle ---------- */
-document.addEventListener('visibilitychange',async ()=>{
-  if(document.visibilityState==='hidden'){pushNow();return}
-  if(!myId)return;
-  try{const me=await rpc('whoami');if(!me){const again=await tryAutoLogin();if(again){myId=again.id;myUser=again.username}else{await lockApp();return}}}catch(e){}
-  refreshRoom();
-});
-window.addEventListener('pagehide',()=>{pushNow()});
-document.addEventListener('input',ev=>{if(ev.target.id==='tbName')localStorage.setItem('nova-display-name',ev.target.value)});
-
 (async()=>{
   try{
-    const {data:{session:s}}=await sb.auth.getSession();
-    if(s){session=s;const me=await rpc('whoami');if(me){await unlock(me);return}}
-    const again=await tryAutoLogin();
-    if(again){await unlock(again);return}
+    const {data:{session}}=await sb.auth.getSession();
+    let me=null;
+    if(session)me=await rpc('whoami');
+    if(!me)me=await tryAutoLogin();
+    if(me){
+      try{await enter();return}catch(e){showForm('Could not load the application. Try again later.');return}
+    }
   }catch(e){}
-  showGate();
+  showForm();
 })();
 })();
 
