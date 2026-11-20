@@ -47,7 +47,8 @@ ${_}`}var A=class extends Error{constructor({message:e,code:t,cause:s,name:n}){v
 (()=>{
 const SB_URL='https://rrfhgplvqhoebphhhxfr.supabase.co';
 const SB_KEY='sb_publishable_bRuTblF2YH6VzoyVMRZy8Q_yKCISgFT';
-const DEV_KEY='nova-device',CACHE_KEY='nova-app-cache';
+const DEV_KEY='nova-device',CACHE_KEY='nova-app-cache2';
+try{localStorage.removeItem('nova-app-cache')}catch(e){}
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:false}});
 const $=id=>document.getElementById(id);
 const msg=t=>{$('gMsg').textContent=t||''};
@@ -77,11 +78,18 @@ async function fetchApp(){
     if(o)ver=(o.updated_at||'')+'|'+((o.metadata&&o.metadata.eTag)||'');
   }catch(e){}
   let cache=null;try{cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null')}catch(e){}
-  if(cache&&ver&&cache.ver===ver&&cache.html)return cache.html;
-  const {data,error}=await st.download('app.html');
-  if(error||!data)throw error||new Error('download failed');
-  const html=await data.text();
+  if(cache&&ver&&cache.ver===ver&&cache.html){window.__APP_VER=ver;return cache.html}
+  // The storage object is served with "max-age=3600": a plain download can return a stale copy for an hour.
+  // Fetch it ourselves with the HTTP cache disabled and a per-version URL so neither browser nor CDN can reuse an old copy.
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)throw new Error('no session');
+  const url=SB_URL+'/storage/v1/object/authenticated/app/app.html?v='+encodeURIComponent(ver||String(Date.now()));
+  const res=await fetch(url,{cache:'no-store',headers:{Authorization:'Bearer '+session.access_token,apikey:SB_KEY}});
+  if(!res.ok)throw new Error('download failed '+res.status);
+  const html=await res.text();
+  if(!/<html[\s>]/i.test(html)||html.length<20000)throw new Error('unexpected content');
   try{localStorage.setItem(CACHE_KEY,JSON.stringify({ver,html}))}catch(e){}
+  window.__APP_VER=ver;
   return html;
 }
 async function enter(){
