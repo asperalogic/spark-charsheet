@@ -47,7 +47,10 @@ ${_}`}var A=class extends Error{constructor({message:e,code:t,cause:s,name:n}){v
 (()=>{
 const SB_URL='https://rrfhgplvqhoebphhhxfr.supabase.co';
 const SB_KEY='sb_publishable_bRuTblF2YH6VzoyVMRZy8Q_yKCISgFT';
-const DEV_KEY='nova-device',CACHE_KEY='nova-app-cache2';
+const DEV_KEY='nova-device';
+// #tracker opens the GM-only tracker page (private "gm" bucket); everything else opens the app
+const TARGET=/^#tracker/.test(location.hash)?{bucket:'gm',file:'tracker.html',cache:'nova-gm-cache'}:{bucket:'app',file:'app.html',cache:'nova-app-cache2'};
+const CACHE_KEY=TARGET.cache;
 try{localStorage.removeItem('nova-app-cache')}catch(e){}
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:false}});
 const $=id=>document.getElementById(id);
@@ -71,10 +74,10 @@ async function tryAutoLogin(){
   return null;
 }
 async function fetchApp(){
-  const st=sb.storage.from('app');let ver='';
+  const st=sb.storage.from(TARGET.bucket);let ver='';
   try{
-    const {data}=await st.list('',{limit:10,search:'app.html'});
-    const o=(data||[]).find(x=>x.name==='app.html');
+    const {data}=await st.list('',{limit:10,search:TARGET.file});
+    const o=(data||[]).find(x=>x.name===TARGET.file);
     if(o)ver=(o.updated_at||'')+'|'+((o.metadata&&o.metadata.eTag)||'');
   }catch(e){}
   let cache=null;try{cache=JSON.parse(localStorage.getItem(CACHE_KEY)||'null')}catch(e){}
@@ -83,7 +86,7 @@ async function fetchApp(){
   // Fetch it ourselves with the HTTP cache disabled and a per-version URL so neither browser nor CDN can reuse an old copy.
   const {data:{session}}=await sb.auth.getSession();
   if(!session)throw new Error('no session');
-  const url=SB_URL+'/storage/v1/object/authenticated/app/app.html?v='+encodeURIComponent(ver||String(Date.now()));
+  const url=SB_URL+'/storage/v1/object/authenticated/'+TARGET.bucket+'/'+TARGET.file+'?v='+encodeURIComponent(ver||String(Date.now()));
   const res=await fetch(url,{cache:'no-store',headers:{Authorization:'Bearer '+session.access_token,apikey:SB_KEY}});
   if(!res.ok)throw new Error('download failed '+res.status);
   const html=await res.text();
